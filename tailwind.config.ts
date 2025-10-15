@@ -85,6 +85,16 @@ export default {
           "25%": { transform: "rotate(-5deg)" },
           "75%": { transform: "rotate(5deg)" }
         },
+        "shake-long": {
+          "0%": { transform: "rotate(0deg)" },
+          "2%, 6%, 10%, 14%, 18%, 22%, 26%, 30%, 34%, 38%, 42%, 46%, 50%, 54%, 58%, 62%, 66%, 70%, 74%, 78%, 82%, 86%, 90%, 94%, 98%": { 
+            transform: "rotate(-8deg)" 
+          },
+          "4%, 8%, 12%, 16%, 20%, 24%, 28%, 32%, 36%, 40%, 44%, 48%, 52%, 56%, 60%, 64%, 68%, 72%, 76%, 80%, 84%, 88%, 92%, 96%": { 
+            transform: "rotate(8deg)" 
+          },
+          "100%": { transform: "rotate(0deg)" }
+        },
         "glow": {
           "0%, 100%": { filter: "drop-shadow(0 0 10px hsl(280 70% 55% / 0.3))" },
           "50%": { filter: "drop-shadow(0 0 20px hsl(280 70% 55% / 0.6))" }
@@ -96,6 +106,7 @@ export default {
         "fade-in": "fade-in 0.5s ease-out",
         "scale-in": "scale-in 0.3s ease-out",
         "shake": "shake 0.5s ease-in-out",
+        "shake-long": "shake-long 5s ease-in-out",
         "glow": "glow 2s ease-in-out infinite",
       },
     },

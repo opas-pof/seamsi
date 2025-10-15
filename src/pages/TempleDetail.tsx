@@ -29,13 +29,14 @@ const TempleDetail = () => {
   }
 
   const handleShake = () => {
+    if (isShaking) return;
+    
     setIsShaking(true);
     
     setTimeout(() => {
       const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
-      setIsShaking(false);
       navigate(`/prophesy/seamsi/${randomPrediction.number}`);
-    }, 1000);
+    }, 5000);
   };
 
   return (
@@ -72,7 +73,7 @@ const TempleDetail = () => {
 
             <div className="text-center">
               <p className="text-xl text-muted-foreground mb-8">
-                กดที่ไอคอนเซียมซีเพื่อเสี่ยงทาย
+                {isShaking ? "กำลังเขย่าเซียมซี..." : "กดที่ไอคอนเซียมซีเพื่อเสี่ยงทาย"}
               </p>
               <div className="flex justify-center">
                 <SeamsiIcon 

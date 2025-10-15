@@ -13,15 +13,16 @@ const Seamsi = () => {
   const [isShaking, setIsShaking] = useState(false);
 
   const handleRandomPrediction = () => {
+    if (isShaking) return;
+    
     setIsShaking(true);
     
     setTimeout(() => {
       const randomTemple = temples[Math.floor(Math.random() * temples.length)];
       const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
       
-      setIsShaking(false);
       navigate(`/prophesy/seamsi/${randomPrediction.number}`);
-    }, 1000);
+    }, 5000);
   };
 
   return (
@@ -41,7 +42,7 @@ const Seamsi = () => {
             ทำนายเซียมซี
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            เลือกวัดที่ต้องการเสี่ยงเซียมซี หรือกดที่ไอคอนกลางเพื่อสุ่มวัดและเซียมซี
+            {isShaking ? "กำลังเขย่าเซียมซี..." : "เลือกวัดที่ต้องการเสี่ยงเซียมซี หรือกดที่ไอคอนกลางเพื่อสุ่มวัดและเซียมซี"}
           </p>
 
           <div className="flex justify-center mb-16">
