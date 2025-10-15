@@ -4,6 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import Prophesy from "./pages/Prophesy";
+import Seamsi from "./pages/Seamsi";
+import TempleDetail from "./pages/TempleDetail";
+import PredictionResult from "./pages/PredictionResult";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -16,6 +20,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/prophesy" element={<Prophesy />} />
+          <Route path="/prophesy/seamsi" element={<Seamsi />} />
+          <Route path="/prophesy/seamsi/:templeId" element={<TempleDetail />} />
+          <Route path="/prophesy/seamsi/:number" element={<PredictionResult />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
