@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import GradientBackground from "@/components/GradientBackground";
 import { predictions } from "@/data/predictions";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ import { ArrowLeft, Sparkles, Heart, Lightbulb } from "lucide-react";
 const PredictionResult = () => {
   const { number } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const temple = location.state?.temple;
 
   const prediction = predictions.find(p => p.number === number);
 
@@ -39,8 +41,13 @@ const PredictionResult = () => {
         <div className="max-w-3xl mx-auto">
           <Card className="bg-card/90 backdrop-blur-sm border-border/50 p-8 md:p-12 animate-scale-in">
             <div className="text-center mb-8">
+              {temple && (
+                <p className="text-xl text-muted-foreground mb-4">
+                  {temple.name}
+                </p>
+              )}
               <div className="inline-block px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full mb-4">
-                <span className="text-2xl font-bold text-white">เบอร์ {prediction.number}</span>
+                <span className="text-2xl font-bold text-white">เซียมซีเบอร์ที่ {prediction.number}</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
                 {prediction.title}

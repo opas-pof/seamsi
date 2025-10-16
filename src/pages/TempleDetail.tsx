@@ -35,7 +35,9 @@ const TempleDetail = () => {
     
     setTimeout(() => {
       const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
-      navigate(`/prophesy/seamsi/${randomPrediction.number}`);
+      navigate(`/prophesy/seamsi/${randomPrediction.number}`, {
+        state: { temple }
+      });
     }, 5000);
   };
 
