@@ -21,7 +21,7 @@ const Seamsi = () => {
       const randomTemple = temples[Math.floor(Math.random() * temples.length)];
       const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
       
-      navigate(`/prophesy/seamsi/${randomPrediction.number}`, {
+      navigate(`/prophesy/seamsi/prediction/${randomPrediction.number}`, {
         state: { temple: randomTemple }
       });
     }, 5000);

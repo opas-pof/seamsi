@@ -22,8 +22,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/prophesy" element={<Prophesy />} />
           <Route path="/prophesy/seamsi" element={<Seamsi />} />
-          <Route path="/prophesy/seamsi/:templeId" element={<TempleDetail />} />
-          <Route path="/prophesy/seamsi/:number" element={<PredictionResult />} />
+          <Route path="/prophesy/seamsi/temple/:templeId" element={<TempleDetail />} />
+          <Route path="/prophesy/seamsi/prediction/:number" element={<PredictionResult />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
