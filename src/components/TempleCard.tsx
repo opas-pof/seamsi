@@ -1,9 +1,12 @@
 import { Card } from "@/components/ui/card";
-import { Temple } from "@/data/temples";
 import { useNavigate } from "react-router-dom";
 
 interface TempleCardProps {
-  temple: Temple;
+  temple: {
+    id: string;
+    name: string;
+    location: string;
+  };
 }
 
 const TempleCard = ({ temple }: TempleCardProps) => {

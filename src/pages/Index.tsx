@@ -1,10 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import GradientBackground from "@/components/GradientBackground";
+import useSeo from "@/hooks/useSeo";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
+  useSeo({
+    title: "ทำนายดวงชะตา - หน้าแรก",
+    description: "เริ่มต้นเสี่ยงเซียมซีและค้นพบคำทำนายของคุณ",
+    keywords: ["หน้าแรก", "เซียมซี", "ทำนายดวง"]
+  });
 
   return (
     <GradientBackground>

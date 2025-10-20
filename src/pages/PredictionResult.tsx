@@ -1,17 +1,30 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import GradientBackground from "@/components/GradientBackground";
+import useSeo from "@/hooks/useSeo";
 import { predictions } from "@/data/predictions";
+import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Sparkles, Heart, Lightbulb } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
+import { saveDraw } from "@/services/draws";
 
 const PredictionResult = () => {
   const { number } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const temple = location.state?.temple;
-
-  const prediction = predictions.find(p => p.number === number);
+  const fortuneFromState = location.state?.fortune;
+  const prediction = useMemo(() => {
+    if (fortuneFromState) {
+      return {
+        number: String(fortuneFromState.fortune_number),
+        title: fortuneFromState.title,
+        content: fortuneFromState.content
+      };
+    }
+    const found = predictions.find(p => p.number === number);
+    return found ? { number: found.number, title: found.title, content: found.content } : undefined;
+  }, [fortuneFromState, number]);
 
   if (!prediction) {
     return (
@@ -25,6 +38,22 @@ const PredictionResult = () => {
       </GradientBackground>
     );
   }
+
+  useSeo({
+    title: `เซียมซีเบอร์ ${prediction.number} - ${prediction.title}`,
+    description: prediction.content,
+    keywords: ["เซียมซี", `${prediction.number}`, prediction.title]
+  });
+
+  const handleSave = async () => {
+    await saveDraw({
+      templeId: temple?.id ?? "unknown",
+      templeName: temple?.name ?? "ไม่ระบุ",
+      fortuneNumber: Number(prediction.number),
+      fortuneTitle: prediction.title,
+      fortuneContent: prediction.content
+    });
+  };
 
   return (
     <GradientBackground>
@@ -65,25 +94,7 @@ const PredictionResult = () => {
                 </p>
               </div>
 
-              <div className="bg-gradient-to-br from-secondary/5 to-accent/5 rounded-lg p-6">
-                <div className="flex items-start mb-3">
-                  <Heart className="w-6 h-6 text-secondary mr-3 mt-1 flex-shrink-0" />
-                  <h2 className="text-2xl font-bold text-foreground">ความหมาย</h2>
-                </div>
-                <p className="text-lg leading-relaxed text-foreground pl-9">
-                  {prediction.meaning}
-                </p>
-              </div>
 
-              <div className="bg-gradient-to-br from-accent/5 to-primary/5 rounded-lg p-6">
-                <div className="flex items-start mb-3">
-                  <Lightbulb className="w-6 h-6 text-accent mr-3 mt-1 flex-shrink-0" />
-                  <h2 className="text-2xl font-bold text-foreground">คำแนะนำ</h2>
-                </div>
-                <p className="text-lg leading-relaxed text-foreground pl-9">
-                  {prediction.advice}
-                </p>
-              </div>
             </div>
 
             <div className="mt-12 text-center">
@@ -93,6 +104,13 @@ const PredictionResult = () => {
                 className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-semibold px-8 py-6 text-lg"
               >
                 เสี่ยงใหม่อีกครั้ง
+              </Button>
+              <Button 
+                variant="ghost"
+                onClick={handleSave}
+                className="ml-4"
+              >
+                เซฟผลนี้ลงฐานข้อมูล
               </Button>
             </div>
           </Card>

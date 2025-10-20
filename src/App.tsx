@@ -9,6 +9,13 @@ import Seamsi from "./pages/Seamsi";
 import TempleDetail from "./pages/TempleDetail";
 import PredictionResult from "./pages/PredictionResult";
 import NotFound from "./pages/NotFound";
+import Header from "@/components/Header";
+import Admin from "@/pages/Admin";
+import AdminTempleList from "@/pages/AdminTempleList";
+import AdminTempleAdd from "@/pages/AdminTempleAdd";
+import AdminFortuneAdd from "@/pages/AdminFortuneAdd";
+import AdminFortuneList from "@/pages/AdminFortuneList";
+import AdminFortuneEdit from "@/pages/AdminFortuneEdit";
 
 const queryClient = new QueryClient();
 
@@ -18,12 +25,20 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/prophesy" element={<Prophesy />} />
           <Route path="/prophesy/seamsi" element={<Seamsi />} />
           <Route path="/prophesy/seamsi/temple/:templeId" element={<TempleDetail />} />
           <Route path="/prophesy/seamsi/prediction/:number" element={<PredictionResult />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/temples" element={<AdminTempleList />} />
+          <Route path="/admin/temples/new" element={<AdminTempleAdd />} />
+          <Route path="/admin/temples/:templeId/fortunes" element={<AdminFortuneList />} />
+          <Route path="/admin/temples/:templeId/fortunes/new" element={<AdminFortuneAdd />} />
+          <Route path="/admin/temples/:templeId/fortunes/:fortuneNumber/edit" element={<AdminFortuneEdit />} />
+          <Route path="/admin/fortunes/new" element={<AdminFortuneAdd />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
