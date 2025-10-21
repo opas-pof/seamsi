@@ -22,10 +22,9 @@ const TempleCard = ({ temple }: TempleCardProps) => {
         {temple.image ? (
           <img src={temple.image} alt={temple.name} className="absolute inset-0 w-full h-full object-cover" />
         ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         <div className="absolute bottom-4 left-4 right-4">
           <h3 className="text-xl font-bold text-white mb-1 drop-shadow-lg">{temple.name}</h3>
-          <p className="text-sm text-white/90 drop-shadow-md">{temple.location}</p>
         </div>
       </div>
     </Card>

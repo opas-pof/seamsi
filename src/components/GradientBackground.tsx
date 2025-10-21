@@ -7,7 +7,7 @@ interface GradientBackgroundProps {
 
 const GradientBackground = ({ children, className = "" }: GradientBackgroundProps) => {
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-amber-50 dark:from-purple-950 dark:via-purple-900 dark:to-purple-950 ${className}`}>
+    <div className="min-h-screen bg-[radial-gradient(55.9%_55.87%_at_50.8%_44.13%,_#E2843E_0%,_#500019_100%)]">
       {children}
     </div>
   );

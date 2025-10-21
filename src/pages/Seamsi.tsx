@@ -68,25 +68,18 @@ const Seamsi = () => {
 
   return (
     <GradientBackground>
-      <div className="container mx-auto px-4 py-16">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/prophesy")}
-          className="mb-8 hover:bg-primary/10"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          กลับ
-        </Button>
+      <div className="mx-auto pt-16">
+        
 
         <div className="text-center mb-16 animate-fade-in">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl font-bold text-white mb-4">
             ทำนายเซียมซี
           </h1>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl text-white">
             {isShaking ? "กำลังเขย่าเซียมซี..." : "เลือกวัดที่ต้องการเสี่ยงเซียมซี หรือกดที่ไอคอนกลางเพื่อสุ่มวัดและเซียมซี"}
           </p>
 
-          <div className="flex justify-center mb-16">
+          <div className="flex justify-center mb-16 relative z-10">
             <SeamsiIcon 
               onClick={handleRandomPrediction}
               isAnimating={isShaking}
@@ -95,13 +88,13 @@ const Seamsi = () => {
           </div>
         </div>
 
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-center mb-8 text-foreground">
+        <div className="relative mb-8 mt-[-62px] pt-24 bg-white w-full before:content-[''] before:w-[327px] before:h-[134px] before:absolute before:top-[-54px] before:left-1/2 before:-translate-x-1/2 before:bg-[url('/assets/images/base.png')] before:bg-cover before:bg-center">
+          <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
             เลือกวัดที่ต้องการ
-          </h2>
+          </h3>
           {loading && (<p className="text-center text-muted-foreground">กำลังโหลดวัด...</p>)}
           {!loading && error && (<p className="text-center text-destructive">{error}</p>)}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {temples.map((temple, index) => (
               <div 
                 key={temple.id}
