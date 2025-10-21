@@ -3,8 +3,7 @@ import GradientBackground from "@/components/GradientBackground";
 import useSeo from "@/hooks/useSeo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { calculateLagna } from "@/data/lagna";
+import { calculateLagna, SIGN_TO_IMAGE_INDEX } from "@/data/lagna";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const LagnaChecker = () => {
@@ -15,26 +14,24 @@ const LagnaChecker = () => {
   });
 
   const today = new Date();
-  const defaultYear = today.getFullYear() - 15; // เริ่มต้นย้อนหลัง 15 ปี
-  const defaultTime = "12:00";
-  const [year, setYear] = useState<number>(defaultYear);
   const [month, setMonth] = useState<number>(today.getMonth() + 1);
   const [day, setDay] = useState<number>(today.getDate());
-  const [timeStr, setTimeStr] = useState<string>(defaultTime);
+  const [hour, setHour] = useState<number>(12);
+  const [minute, setMinute] = useState<number>(0);
   const [result, setResult] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const daysInMonth = (m: number, y: number) => new Date(y, m, 0).getDate();
+  // ไม่ใช้ปีในคำนวณ: กำหนดจำนวนวันตามเดือนทั่วไป (ก.พ. 29 วัน รองรับ 29)
+  const daysInMonth = (m: number) => {
+    if ([1, 3, 5, 7, 8, 10, 12].includes(m)) return 31;
+    if ([4, 6, 9, 11].includes(m)) return 30;
+    return 29; // กุมภาพันธ์
+  };
 
   useEffect(() => {
-    const maxDay = daysInMonth(month, year);
+    const maxDay = daysInMonth(month);
     if (day > maxDay) setDay(maxDay);
-  }, [month, year]);
-
-  const years = useMemo(() => {
-    const current = today.getFullYear();
-    return Array.from({ length: 121 }, (_, i) => current - i); // ย้อน 120 ปี
-  }, [today]);
+  }, [month]);
 
   const months = [
     "มกราคม",
@@ -51,10 +48,14 @@ const LagnaChecker = () => {
     "ธันวาคม"
   ];
 
+  const hours = useMemo(() => Array.from({ length: 24 }, (_, i) => i), []);
+  const minutes = useMemo(() => Array.from({ length: 60 }, (_, i) => i), []);
+  const pad2 = (n: number) => String(n).padStart(2, "0");
+
   const onCalculate = () => {
     try {
-      const [hhStr, mmStr] = timeStr.split(":");
-      const sign = calculateLagna(new Date(year, month - 1, day), parseInt(hhStr, 10), parseInt(mmStr, 10));
+      // ใช้ปีสมมติ (2000) เพราะคำนวณใช้เฉพาะเดือน/วัน
+      const sign = calculateLagna(new Date(2000, month - 1, day), hour, minute);
       setResult(sign);
       setError("");
     } catch (e: any) {
@@ -75,7 +76,7 @@ const LagnaChecker = () => {
 
         <Card className="max-w-xl mx-auto p-6 space-y-6 bg-card/80 backdrop-blur-sm">
           <div className="grid grid-cols-1 gap-4">
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm mb-1">วัน</label>
                 <Select value={String(day)} onValueChange={(v) => setDay(parseInt(v, 10))}>
@@ -83,7 +84,7 @@ const LagnaChecker = () => {
                     <SelectValue placeholder="วัน" />
                   </SelectTrigger>
                   <SelectContent>
-                    {Array.from({ length: daysInMonth(month, year) }, (_, i) => i + 1).map((d) => (
+                    {Array.from({ length: daysInMonth(month) }, (_, i) => i + 1).map((d) => (
                       <SelectItem key={d} value={String(d)}>{d}</SelectItem>
                     ))}
                   </SelectContent>
@@ -104,23 +105,34 @@ const LagnaChecker = () => {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm mb-1">ปี (ค.ศ.)</label>
-                <Select value={String(year)} onValueChange={(v) => setYear(parseInt(v, 10))}>
+                <label className="block text-sm mb-1">ชั่วโมง (0–23)</label>
+                <Select value={String(hour)} onValueChange={(v) => setHour(parseInt(v, 10))}>
                   <SelectTrigger>
-                    <SelectValue placeholder="ปี" />
+                    <SelectValue placeholder="ชั่วโมง" />
                   </SelectTrigger>
                   <SelectContent>
-                    {years.map((y) => (
-                      <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                    {hours.map((h) => (
+                      <SelectItem key={h} value={String(h)}>{pad2(h)}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-            </div>
-            <div>
-              <label className="block text-sm mb-1">เวลาเกิด</label>
-              <Input type="time" value={timeStr} onChange={(e) => setTimeStr(e.target.value)} step={60} />
+              <div>
+                <label className="block text-sm mb-1">นาที (0–59)</label>
+                <Select value={String(minute)} onValueChange={(v) => setMinute(parseInt(v, 10))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="นาที" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {minutes.map((m) => (
+                      <SelectItem key={m} value={String(m)}>{pad2(m)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
@@ -135,9 +147,17 @@ const LagnaChecker = () => {
           )}
 
           {result && (
-            <div className="text-center mt-2">
+            <div className="text-center mt-2 space-y-4">
               <div className="text-xl text-muted-foreground">คุณอยู่ลัคนา</div>
               <div className="text-5xl font-bold mt-1">{result}</div>
+              {SIGN_TO_IMAGE_INDEX[result] && (
+                <img
+                  src={`/assets/images/${SIGN_TO_IMAGE_INDEX[result]}.png`}
+                  alt={`ลัคนา ${result}`}
+                  className="mx-auto w-56 h-56 object-contain"
+                  loading="lazy"
+                />
+              )}
             </div>
           )}
         </Card>
