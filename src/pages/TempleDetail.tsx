@@ -14,7 +14,7 @@ const TempleDetail = () => {
   const [isShaking, setIsShaking] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [temple, setTemple] = useState<{ id: string; name: string; description: string; location: string } | null>(null);
+  const [temple, setTemple] = useState<{ id: string; name: string; description: string; location: string; image?: string } | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -23,11 +23,11 @@ const TempleDetail = () => {
       setError("");
       const { data, error } = await supabase
         .from("temples")
-        .select("temple_id,name,description,location")
+        .select("temple_id,name,description,location,image")
         .eq("temple_id", templeId)
         .maybeSingle();
       if (error) setError(error.message);
-      if (data) setTemple({ id: data.temple_id, name: data.name, description: data.description ?? "", location: data.location ?? "" });
+      if (data) setTemple({ id: data.temple_id, name: data.name, description: data.description ?? "", location: data.location ?? "", image: data.image ?? undefined });
       setLoading(false);
     };
     load();
@@ -109,6 +109,9 @@ const TempleDetail = () => {
             )}
 
             <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg mb-6 relative overflow-hidden">
+              {temple?.image ? (
+                <img src={temple.image} alt={temple.name} className="absolute inset-0 w-full h-full object-cover" />
+              ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
 

@@ -6,6 +6,7 @@ interface TempleCardProps {
     id: string;
     name: string;
     location: string;
+    image?: string;
   };
 }
 
@@ -18,6 +19,9 @@ const TempleCard = ({ temple }: TempleCardProps) => {
       onClick={() => navigate(`/prophesy/seamsi/temple/${temple.id}`)}
     >
       <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 relative overflow-hidden">
+        {temple.image ? (
+          <img src={temple.image} alt={temple.name} className="absolute inset-0 w-full h-full object-cover" />
+        ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-4 left-4 right-4">
           <h3 className="text-xl font-bold text-white mb-1 drop-shadow-lg">{temple.name}</h3>

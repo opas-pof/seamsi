@@ -76,7 +76,10 @@ const AdminTempleList = () => {
                   <p className="text-sm text-muted-foreground">{t.location}</p>
                   <p className="text-xs text-muted-foreground mt-1">slug: {t.temple_id}</p>
                 </div>
-                <div className="space-x-2 whitespace-nowrap">
+                <div className="whitespace-nowrap flex flex-col gap-2">
+                  <Button variant="outline" onClick={() => navigate(`/admin/temples/${t.temple_id}/edit`)}>
+                    แก้ไขวัด
+                  </Button>
                   <Button variant="secondary" onClick={() => navigate(`/admin/temples/${t.temple_id}/fortunes`)}>
                     จัดการเซียมซี
                   </Button>

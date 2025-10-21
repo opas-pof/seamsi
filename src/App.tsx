@@ -16,6 +16,7 @@ import AdminTempleAdd from "@/pages/AdminTempleAdd";
 import AdminFortuneAdd from "@/pages/AdminFortuneAdd";
 import AdminFortuneList from "@/pages/AdminFortuneList";
 import AdminFortuneEdit from "@/pages/AdminFortuneEdit";
+import AdminTempleEdit from "@/pages/AdminTempleEdit";
 import LagnaChecker from "@/pages/LagnaChecker";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/temples" element={<AdminTempleList />} />
           <Route path="/admin/temples/new" element={<AdminTempleAdd />} />
+          <Route path="/admin/temples/:templeId/edit" element={<AdminTempleEdit />} />
           <Route path="/admin/temples/:templeId/fortunes" element={<AdminFortuneList />} />
           <Route path="/admin/temples/:templeId/fortunes/new" element={<AdminFortuneAdd />} />
           <Route path="/admin/temples/:templeId/fortunes/:fortuneNumber/edit" element={<AdminFortuneEdit />} />

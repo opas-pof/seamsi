@@ -13,7 +13,7 @@ const Seamsi = () => {
   const [isShaking, setIsShaking] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [temples, setTemples] = useState<Array<{ id: string; name: string; location: string }>>([]);
+  const [temples, setTemples] = useState<Array<{ id: string; name: string; location: string; image?: string }>>([]);
   useSeo({
     title: "ทำนายเซียมซี - เลือกวัด",
     description: "เลือกวัดเพื่อเสี่ยงเซียมซีหรือสุ่มผล",
@@ -26,12 +26,12 @@ const Seamsi = () => {
       setError("");
       const { data, error } = await supabase
         .from("temples")
-        .select("temple_id,name,location")
+        .select("temple_id,name,location,image")
         .order("name", { ascending: true });
       if (error) {
         setError(error.message);
       } else {
-        const mapped = (data ?? []).map(t => ({ id: t.temple_id as string, name: t.name as string, location: (t.location ?? "") as string }));
+        const mapped = (data ?? []).map(t => ({ id: t.temple_id as string, name: t.name as string, location: (t.location ?? "") as string, image: t.image ?? undefined }));
         setTemples(mapped);
       }
       setLoading(false);
