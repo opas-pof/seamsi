@@ -16,6 +16,7 @@ import AdminTempleAdd from "@/pages/AdminTempleAdd";
 import AdminFortuneAdd from "@/pages/AdminFortuneAdd";
 import AdminFortuneList from "@/pages/AdminFortuneList";
 import AdminFortuneEdit from "@/pages/AdminFortuneEdit";
+import LagnaChecker from "@/pages/LagnaChecker";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/prophesy" element={<Prophesy />} />
           <Route path="/prophesy/seamsi" element={<Seamsi />} />
+          <Route path="/prophesy/lagna" element={<LagnaChecker />} />
           <Route path="/prophesy/seamsi/temple/:templeId" element={<TempleDetail />} />
           <Route path="/prophesy/seamsi/prediction/:number" element={<PredictionResult />} />
           <Route path="/admin" element={<Admin />} />
