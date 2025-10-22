@@ -82,7 +82,7 @@ const AdminFortuneEdit = () => {
       setSaving(false);
       return;
     }
-    navigate(`/admin/temples/${templeId}/fortunes`);
+    navigate(`/prophesy/admin/temples/${templeId}/fortunes`);
   };
 
   return (

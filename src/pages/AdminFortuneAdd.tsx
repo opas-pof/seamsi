@@ -74,7 +74,7 @@ const AdminFortuneAdd = () => {
       setSaving(false);
       return;
     }
-    navigate("/admin/temples");
+    navigate("/prophesy/admin/temples");
   };
 
   return (

@@ -107,7 +107,7 @@ const AdminTempleEdit = () => {
       setSaving(false);
       return;
     }
-    navigate("/admin/temples");
+    navigate("/prophesy/admin/temples");
   };
 
   return (

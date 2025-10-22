@@ -43,7 +43,7 @@ const AdminTempleList = () => {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold">รายการวัด</h1>
           <div className="space-x-2">
-            <Button onClick={() => navigate("/admin/temples/new")}>เพิ่มวัดใหม่</Button>
+            <Button onClick={() => navigate("/prophesy/admin/temples/new")}>เพิ่มวัดใหม่</Button>
           </div>
         </div>
 
@@ -62,7 +62,7 @@ const AdminTempleList = () => {
                 <p className="text-lg">ยังไม่มีวัดในระบบ</p>
                 <p className="text-sm text-muted-foreground">กดปุ่มด้านขวาเพื่อเพิ่มวัดแรก</p>
               </div>
-              <Button onClick={() => navigate("/admin/temples/new")}>เพิ่มวัดใหม่</Button>
+              <Button onClick={() => navigate("/prophesy/admin/temples/new")}>เพิ่มวัดใหม่</Button>
             </div>
           </Card>
         )}
