@@ -93,7 +93,7 @@ const PredictionResult = () => {
                   {temple.name}
                 </p>
               )}
-              <h1 className="text-4xl md:text-5xl leading-16 font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+              <h1 className="text-4xl md:text-5xl leading-16 pt-4 font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
                 {prediction.title}
               </h1>
             </div>
