@@ -6,7 +6,7 @@ import { predictions } from "@/data/predictions";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles, Facebook, Twitter } from "lucide-react";
 import { saveDraw } from "@/services/draws";
 
 const PredictionResult = () => {
@@ -63,6 +63,22 @@ const PredictionResult = () => {
     });
   }
 
+  const openShareWindow = (url: string) => {
+    if (typeof window === "undefined") return;
+    window.open(url, "_blank", "noopener,noreferrer,width=600,height=500");
+  };
+
+  const handleShare = (platform: "facebook" | "twitter") => {
+    if (typeof window === "undefined") return;
+    const currentUrl = window.location.href;
+    const text = `เซียมซีใบที่ ${prediction.number} - ${prediction.title}`;
+    const shareUrl =
+      platform === "facebook"
+        ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`
+        : `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(text)}`;
+    openShareWindow(shareUrl);
+  };
+
   const handleSave = async () => {
     await saveDraw({
       templeId: temple?.id ?? "unknown",
@@ -107,12 +123,10 @@ const PredictionResult = () => {
                 <p className="text-lg leading-relaxed text-foreground pl-9">
                   {prediction.content}
                 </p>
-              </div>
-
-
+              </div>              
             </div>
 
-            <div className="mt-12 text-center">
+            <div className="mt-12 text-center grid grid-cols-2 gap-4">
               <Button 
                 size="lg"
                 onClick={() => navigate("/prophesy/seamsi")}
@@ -120,6 +134,15 @@ const PredictionResult = () => {
               >
                 กลับหน้าหลัก
               </Button>
+              <div className="flex justify-end items-center gap-3">
+                แชร์ 
+                <Button className="bg-blue-800 rounded-full" onClick={() => handleShare("facebook")}>
+                  <Facebook className="h-4 w-4" />
+                </Button>
+                <Button className="bg-blue-500 rounded-full" onClick={() => handleShare("twitter")}>
+                  <Twitter className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </Card>
         </div>
