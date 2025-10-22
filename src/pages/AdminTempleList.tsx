@@ -77,13 +77,13 @@ const AdminTempleList = () => {
                   <p className="text-xs text-muted-foreground mt-1">slug: {t.temple_id}</p>
                 </div>
                 <div className="whitespace-nowrap flex flex-col gap-2">
-                  <Button variant="outline" onClick={() => navigate(`/admin/temples/${t.temple_id}/edit`)}>
+                  <Button variant="outline" onClick={() => navigate(`/prophesy/admin/temples/${t.temple_id}/edit`)}>
                     แก้ไขวัด
                   </Button>
-                  <Button variant="secondary" onClick={() => navigate(`/admin/temples/${t.temple_id}/fortunes`)}>
+                  <Button variant="secondary" onClick={() => navigate(`/prophesy/admin/temples/${t.temple_id}/fortunes`)}>
                     จัดการเซียมซี
                   </Button>
-                  <Button onClick={() => navigate(`/admin/temples/${t.temple_id}/fortunes/new`)}>
+                  <Button onClick={() => navigate(`/prophesy/admin/temples/${t.temple_id}/fortunes/new`)}>
                     เพิ่มเซียมซี
                   </Button>
                 </div>
