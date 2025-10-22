@@ -81,11 +81,7 @@ const Seamsi = () => {
 
   return (
     <GradientBackground>
-      <div className="mx-auto pt-16 relative" style={{
-        // ใช้ CSS variable เพื่อให้ path asset อ้างอิง BASE_URL ได้
-        // tailwind arbitrary url() จะไม่ถูก rewrite อัตโนมัติ
-        ['--base-image-url' as any]: `url(${import.meta.env.BASE_URL}assets/images/base.png)`
-      }}>
+      <div className="mx-auto pt-16 relative">
         
 
         <div className="text-center mb-16 animate-fade-in">
@@ -105,7 +101,7 @@ const Seamsi = () => {
           </div>          
         </div>
 
-        <div className="relative mb-8 mt-[-62px] pt-24 bg-white w-full before:content-[''] before:w-[327px] before:h-[134px] before:absolute before:top-[-54px] before:left-1/2 before:-translate-x-1/2 before:bg-[image:var(--base-image-url)] before:bg-cover before:bg-center">
+        <div className="relative mb-8 mt-[-62px] pt-24 bg-white w-full before:content-[''] before:w-[327px] before:h-[134px] before:absolute before:top-[-54px] before:left-1/2 before:-translate-x-1/2 before:bg-[url('/assets/images/base.png')] before:bg-cover before:bg-center">
           <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
             เลือกวัดที่ต้องการ
           </h3>

@@ -149,7 +149,7 @@ const LagnaChecker = () => {
               <div className="text-5xl font-bold mt-1">{result}</div>
               {SIGN_TO_IMAGE_INDEX[result] && (
                 <img
-                  src={`${import.meta.env.BASE_URL}assets/images/${SIGN_TO_IMAGE_INDEX[result]}.png`}
+                  src={`/assets/images/${SIGN_TO_IMAGE_INDEX[result]}.png`}
                   alt={`ลัคนา ${result}`}
                   className="mx-auto w-56 h-56 object-contain"
                   loading="lazy"
