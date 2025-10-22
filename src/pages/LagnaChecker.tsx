@@ -1,17 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import GradientBackground from "@/components/GradientBackground";
 import useSeo from "@/hooks/useSeo";
+import { seoRegistry } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { calculateLagna, SIGN_TO_IMAGE_INDEX } from "@/data/lagna";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const LagnaChecker = () => {
-  useSeo({
-    title: "เช็คลัคนา - ตามวันเวลาเกิด",
-    description: "เลือกวันเกิดและเวลาเกิดเพื่อดูว่าคุณอยู่ลัคนาใด",
-    keywords: ["ลัคนา", "โหราศาสตร์", "เช็คลัคนา"]
-  });
+  useSeo(seoRegistry.lagna);
 
   const today = new Date();
   const [month, setMonth] = useState<number>(today.getMonth() + 1);
@@ -65,20 +62,20 @@ const LagnaChecker = () => {
   };
 
   return (
-    <GradientBackground>
+    <>
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            เช็คลัคนา
+          <h1 className="text-4xl leading-16 font-bold pt-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            เช็กลัคนา
           </h1>
           <p className="text-muted-foreground mt-2">อ้างอิงตารางเทียบวันและเวลาเกิดแบบไทย</p>
         </div>
 
-        <Card className="max-w-xl mx-auto p-6 space-y-6 bg-card/80 backdrop-blur-sm">
-          <div className="grid grid-cols-1 gap-4">
+        <Card className="max-w-2xl mx-auto p-6 space-y-6 bg-card/80 backdrop-blur-sm">
+          <div className="grid grid-cols-2 gap-12">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm mb-1">วัน</label>
+                <label className="block text-sm mb-1">วันเกิด</label>
                 <Select value={String(day)} onValueChange={(v) => setDay(parseInt(v, 10))}>
                   <SelectTrigger>
                     <SelectValue placeholder="วัน" />
@@ -91,7 +88,7 @@ const LagnaChecker = () => {
                 </Select>
               </div>
               <div>
-                <label className="block text-sm mb-1">เดือน</label>
+                <label className="block text-sm mb-1">เดือนเกิด</label>
                 <Select value={String(month)} onValueChange={(v) => setMonth(parseInt(v, 10))}>
                   <SelectTrigger>
                     <SelectValue placeholder="เดือน" />
@@ -162,7 +159,7 @@ const LagnaChecker = () => {
           )}
         </Card>
       </div>
-    </GradientBackground>
+    </>
   );
 };
 

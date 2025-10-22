@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GradientBackground from "@/components/GradientBackground";
 import useSeo from "@/hooks/useSeo";
+import { buildSeoFromTempleRecord } from "@/lib/seo";
 import SeamsiIcon from "@/components/SeamsiIcon";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
@@ -23,11 +24,11 @@ const TempleDetail = () => {
       setError("");
       const { data, error } = await supabase
         .from("temples")
-        .select("temple_id,name,description,location,image")
+        .select("temple_id,name,description,location,image,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description")
         .eq("temple_id", templeId)
         .maybeSingle();
       if (error) setError(error.message);
-      if (data) setTemple({ id: data.temple_id, name: data.name, description: data.description ?? "", location: data.location ?? "", image: data.image ?? undefined });
+      if (data) setTemple({ id: data.temple_id, name: data.name, description: data.description ?? "", location: data.location ?? "", image: data.image ?? undefined, _seo: data });
       setLoading(false);
     };
     load();
@@ -46,11 +47,11 @@ const TempleDetail = () => {
     );
   }
 
-  useSeo({
-    title: temple ? `${temple.name} - เสี่ยงเซียมซี` : "เสี่ยงเซียมซี",
-    description: temple?.description ?? "",
-    keywords: temple ? [temple.name, "เซียมซี", temple.location] : ["เซียมซี"]
-  });
+  useSeo(
+    temple
+      ? buildSeoFromTempleRecord(temple._seo)
+      : { title: "เสี่ยงเซียมซี" }
+  );
 
   const handleShake = () => {
     if (isShaking) return;

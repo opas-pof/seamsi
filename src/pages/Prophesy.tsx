@@ -60,7 +60,7 @@ const Prophesy = () => {
               </div>
               <div>
                 <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  เช็คลัคนา
+                  เช็กลัคนา
                 </h2>
                 <p className="text-muted-foreground">
                   กรอกวันและเวลาเกิด เพื่อดูว่าคุณอยู่ลัคนาอะไร

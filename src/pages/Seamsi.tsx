@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GradientBackground from "@/components/GradientBackground";
 import useSeo from "@/hooks/useSeo";
+import { seoRegistry } from "@/lib/seo";
 import TempleCard from "@/components/TempleCard";
 import SeamsiIcon from "@/components/SeamsiIcon";
 import { supabase } from "@/lib/supabase";
@@ -14,11 +15,7 @@ const Seamsi = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [temples, setTemples] = useState<Array<{ id: string; name: string; location: string; image?: string }>>([]);
-  useSeo({
-    title: "ทำนายเซียมซี - เลือกวัด",
-    description: "เลือกวัดเพื่อเสี่ยงเซียมซีหรือสุ่มผล",
-    keywords: ["เซียมซี", "เลือกวัด"]
-  });
+  useSeo(seoRegistry.seamsi);
 
   useEffect(() => {
     const loadTemples = async () => {
@@ -52,7 +49,7 @@ const Seamsi = () => {
       const randomTemple = temples[Math.floor(Math.random() * temples.length)];
       const { data: fortunes } = await supabase
         .from("fortunes")
-        .select("fortune_number,title,content,meaning,advice")
+        .select("fortune_number,title,content,meaning,advice,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description")
         .eq("temple_id", randomTemple.id)
         .order("fortune_number");
       if (!fortunes || fortunes.length === 0) {

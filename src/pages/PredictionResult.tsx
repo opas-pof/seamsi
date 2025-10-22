@@ -1,6 +1,7 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import GradientBackground from "@/components/GradientBackground";
 import useSeo from "@/hooks/useSeo";
+import { buildSeoFromFortuneRecord } from "@/lib/seo";
 import { predictions } from "@/data/predictions";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
@@ -39,11 +40,28 @@ const PredictionResult = () => {
     );
   }
 
-  useSeo({
-    title: `เซียมซีเบอร์ ${prediction.number} - ${prediction.title}`,
-    description: prediction.content,
-    keywords: ["เซียมซี", `${prediction.number}`, prediction.title]
-  });
+  if (fortuneFromState) {
+    useSeo(buildSeoFromFortuneRecord({
+      fortune: {
+        fortune_number: Number(prediction.number),
+        title: prediction.title,
+        content: prediction.content,
+        seo_title: fortuneFromState.seo_title,
+        seo_description: fortuneFromState.seo_description,
+        seo_keywords: fortuneFromState.seo_keywords,
+        seo_image: fortuneFromState.seo_image,
+        smo_title: fortuneFromState.smo_title,
+        smo_description: fortuneFromState.smo_description
+      },
+      temple
+    }));
+  } else {
+    useSeo({
+      title: `เซียมซีเบอร์ ${prediction.number} - ${prediction.title}`,
+      description: prediction.content,
+      keywords: ["เซียมซี", `${prediction.number}`, prediction.title]
+    });
+  }
 
   const handleSave = async () => {
     await saveDraw({
@@ -75,10 +93,7 @@ const PredictionResult = () => {
                   {temple.name}
                 </p>
               )}
-              <div className="inline-block px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-full mb-4">
-                <span className="text-2xl font-bold text-white">เซียมซีเบอร์ที่ {prediction.number}</span>
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+              <h1 className="text-4xl md:text-5xl leading-16 font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
                 {prediction.title}
               </h1>
             </div>
@@ -103,14 +118,7 @@ const PredictionResult = () => {
                 onClick={() => navigate("/prophesy/seamsi")}
                 className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-semibold px-8 py-6 text-lg"
               >
-                เสี่ยงใหม่อีกครั้ง
-              </Button>
-              <Button 
-                variant="ghost"
-                onClick={handleSave}
-                className="ml-4"
-              >
-                เซฟผลนี้ลงฐานข้อมูล
+                กลับหน้าหลัก
               </Button>
             </div>
           </Card>

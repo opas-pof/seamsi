@@ -6,6 +6,13 @@ create table if not exists public.temples (
   location text,
   description text,
   image text,
+  -- SEO/SMO fields
+  seo_title text,
+  seo_description text,
+  seo_keywords text[],
+  smo_title text,
+  smo_description text,
+  seo_image text,
   created_at timestamptz default now()
 );
 
@@ -17,6 +24,13 @@ create table if not exists public.fortunes (
   content text not null,
   meaning text,
   advice text,
+  -- SEO/SMO fields
+  seo_title text,
+  seo_description text,
+  seo_keywords text[],
+  smo_title text,
+  smo_description text,
+  seo_image text,
   unique (temple_id, fortune_number),
   created_at timestamptz default now()
 );

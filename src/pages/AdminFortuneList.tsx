@@ -57,7 +57,7 @@ const AdminFortuneList = () => {
   };
 
   return (
-    <GradientBackground>
+    <>
       <div className="container mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -96,7 +96,7 @@ const AdminFortuneList = () => {
           ))}
         </div>
       </div>
-    </GradientBackground>
+    </>
   );
 };
 

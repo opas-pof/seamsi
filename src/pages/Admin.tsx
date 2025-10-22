@@ -10,7 +10,7 @@ const Admin = () => {
     useSeo({ title: "Admin - เมนูจัดการ" });
 
     return (
-        <GradientBackground>
+        <>
             <div className="container mx-auto px-4 py-12">
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-bold">แอดมิน · เมนูจัดการ</h1>
@@ -45,7 +45,7 @@ const Admin = () => {
                     </Card>
                 </div>
             </div>
-        </GradientBackground>
+        </>
     );
 };
 
