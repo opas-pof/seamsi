@@ -66,7 +66,7 @@ const AdminFortuneList = () => {
           </div>
           <div className="space-x-2">
             <Button variant="ghost" onClick={() => navigate(-1)}>ย้อนกลับ</Button>
-            <Button onClick={() => navigate(`/prophesy/admin/temples/${templeId}/fortunes/new`)}>เพิ่มเซียมซี</Button>
+            <Button onClick={() => navigate(`/fortune/admin/temples/${templeId}/fortunes/new`)}>เพิ่มเซียมซี</Button>
           </div>
         </div>
 
@@ -88,7 +88,7 @@ const AdminFortuneList = () => {
                   <p className="text-sm text-muted-foreground line-clamp-3 mt-1">{f.content}</p>
                 </div>
                 <div className="space-x-2 whitespace-nowrap">
-                  <Button variant="secondary" onClick={() => navigate(`/prophesy/admin/temples/${templeId}/fortunes/${f.fortune_number}/edit`)}>แก้ไข</Button>
+                  <Button variant="secondary" onClick={() => navigate(`/fortune/admin/temples/${templeId}/fortunes/${f.fortune_number}/edit`)}>แก้ไข</Button>
                   <Button variant="destructive" onClick={() => handleDelete(f.fortune_number)}>ลบ</Button>
                 </div>
               </div>

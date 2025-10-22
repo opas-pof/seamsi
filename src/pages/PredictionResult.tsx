@@ -32,7 +32,7 @@ const PredictionResult = () => {
       <GradientBackground>
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl font-bold mb-4">ไม่พบคำทำนาย</h1>
-          <Button onClick={() => navigate("/prophesy/seamsi")}>
+          <Button onClick={() => navigate("/fortune/seamsi")}>
             กลับไปเสี่ยงใหม่
           </Button>
         </div>
@@ -94,7 +94,7 @@ const PredictionResult = () => {
       <div className="container mx-auto px-4 py-16">
         <Button
           variant="ghost"
-          onClick={() => navigate("/prophesy/seamsi")}
+          onClick={() => navigate("/fortune/seamsi")}
           className="mb-8 hover:bg-primary/10"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -129,7 +129,7 @@ const PredictionResult = () => {
             <div className="mt-12 text-center grid grid-cols-2 gap-4">
               <Button 
                 size="lg"
-                onClick={() => navigate("/prophesy/seamsi")}
+                onClick={() => navigate("/fortune/seamsi")}
                 className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-semibold px-8 py-6 text-lg"
               >
                 กลับหน้าหลัก

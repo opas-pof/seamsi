@@ -39,7 +39,7 @@ const TempleDetail = () => {
       <GradientBackground>
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl font-bold mb-4">ไม่พบข้อมูลวัด</h1>
-          <Button onClick={() => navigate("/prophesy/seamsi")}>
+          <Button onClick={() => navigate("/fortune/seamsi")}>
             กลับไปเลือกวัด
           </Button>
         </div>
@@ -73,7 +73,7 @@ const TempleDetail = () => {
         return;
       }
       const f = fortunes[Math.floor(Math.random() * fortunes.length)];
-      navigate(`/prophesy/seamsi/prediction/${String(f.fortune_number)}`,
+      navigate(`/fortune/seamsi/prediction/${String(f.fortune_number)}`,
         { state: { temple, fortune: f } }
       );
     }, 5000);
@@ -84,7 +84,7 @@ const TempleDetail = () => {
       <div className="container mx-auto px-4 py-16">
         <Button
           variant="ghost"
-          onClick={() => navigate("/prophesy/seamsi")}
+          onClick={() => navigate("/fortune/seamsi")}
           className="mb-8 hover:bg-primary/10"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />

@@ -23,7 +23,7 @@ const Admin = () => {
                             <h2 className="text-xl font-semibold">รายการวัด</h2>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">ดูรายชื่อวัดทั้งหมด และไปเพิ่มเซียมซี</p>
-                        <Button onClick={() => navigate("/prophesy/admin/temples")}>ไปที่รายการวัด</Button>
+                        <Button onClick={() => navigate("/fortune/admin/temples")}>ไปที่รายการวัด</Button>
                     </Card>
 
                     <Card className="p-6 bg-card/90 border-border/50 flex flex-col items-start">
@@ -32,7 +32,7 @@ const Admin = () => {
                             <h2 className="text-xl font-semibold">เพิ่มวัดใหม่</h2>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">สร้างวัดใหม่พร้อมรายละเอียด</p>
-                        <Button onClick={() => navigate("/prophesy/admin/temples/new")}>เพิ่มวัด</Button>
+                        <Button onClick={() => navigate("/fortune/admin/temples/new")}>เพิ่มวัด</Button>
                     </Card>
 
                     <Card className="p-6 bg-card/90 border-border/50 flex flex-col items-start">
@@ -41,7 +41,7 @@ const Admin = () => {
                             <h2 className="text-xl font-semibold">เพิ่มเซียมซี</h2>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">เพิ่มใบเซียมซีให้วัดที่เลือก</p>
-                        <Button onClick={() => navigate("/prophesy/admin/fortunes/new")}>เพิ่มเซียมซี</Button>
+                        <Button onClick={() => navigate("/fortune/admin/fortunes/new")}>เพิ่มเซียมซี</Button>
                     </Card>
                 </div>
             </div>

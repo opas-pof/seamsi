@@ -30,19 +30,19 @@ const App = () => (
         <Header />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/prophesy" element={<Prophesy />} />
-          <Route path="/prophesy/seamsi" element={<Seamsi />} />
-          <Route path="/prophesy/lagna" element={<LagnaChecker />} />
-          <Route path="/prophesy/seamsi/temple/:templeId" element={<TempleDetail />} />
-          <Route path="/prophesy/seamsi/prediction/:number" element={<PredictionResult />} />
-          <Route path="/prophesy/admin" element={<Admin />} />
-          <Route path="/prophesy/admin/temples" element={<AdminTempleList />} />
-          <Route path="/prophesy/admin/temples/new" element={<AdminTempleAdd />} />
-          <Route path="/prophesy/admin/temples/:templeId/edit" element={<AdminTempleEdit />} />
-          <Route path="/prophesy/admin/temples/:templeId/fortunes" element={<AdminFortuneList />} />
-          <Route path="/prophesy/admin/temples/:templeId/fortunes/new" element={<AdminFortuneAdd />} />
-          <Route path="/prophesy/admin/temples/:templeId/fortunes/:fortuneNumber/edit" element={<AdminFortuneEdit />} />
-          <Route path="/prophesy/admin/fortunes/new" element={<AdminFortuneAdd />} />
+          <Route path="/fortune" element={<Prophesy />} />
+          <Route path="/fortune/seamsi" element={<Seamsi />} />
+          <Route path="/fortune/lagna" element={<LagnaChecker />} />
+          <Route path="/fortune/seamsi/temple/:templeId" element={<TempleDetail />} />
+          <Route path="/fortune/seamsi/prediction/:number" element={<PredictionResult />} />
+          <Route path="/fortune/admin" element={<Admin />} />
+          <Route path="/fortune/admin/temples" element={<AdminTempleList />} />
+          <Route path="/fortune/admin/temples/new" element={<AdminTempleAdd />} />
+          <Route path="/fortune/admin/temples/:templeId/edit" element={<AdminTempleEdit />} />
+          <Route path="/fortune/admin/temples/:templeId/fortunes" element={<AdminFortuneList />} />
+          <Route path="/fortune/admin/temples/:templeId/fortunes/new" element={<AdminFortuneAdd />} />
+          <Route path="/fortune/admin/temples/:templeId/fortunes/:fortuneNumber/edit" element={<AdminFortuneEdit />} />
+          <Route path="/fortune/admin/fortunes/new" element={<AdminFortuneAdd />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

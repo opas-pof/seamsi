@@ -33,7 +33,7 @@ const Index = () => {
             
             <Button 
               size="lg"
-              onClick={() => navigate("/prophesy")}
+              onClick={() => navigate("/fortune")}
               className="mt-8 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-semibold px-12 py-8 text-2xl rounded-full shadow-[0_0_30px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_40px_hsl(var(--primary)/0.6)] transition-all"
             >
               เริ่มทำนาย

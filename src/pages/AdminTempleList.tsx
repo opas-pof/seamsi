@@ -43,7 +43,7 @@ const AdminTempleList = () => {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold">รายการวัด</h1>
           <div className="space-x-2">
-            <Button onClick={() => navigate("/prophesy/admin/temples/new")}>เพิ่มวัดใหม่</Button>
+            <Button onClick={() => navigate("/fortune/admin/temples/new")}>เพิ่มวัดใหม่</Button>
           </div>
         </div>
 
@@ -62,7 +62,7 @@ const AdminTempleList = () => {
                 <p className="text-lg">ยังไม่มีวัดในระบบ</p>
                 <p className="text-sm text-muted-foreground">กดปุ่มด้านขวาเพื่อเพิ่มวัดแรก</p>
               </div>
-              <Button onClick={() => navigate("/prophesy/admin/temples/new")}>เพิ่มวัดใหม่</Button>
+              <Button onClick={() => navigate("/fortune/admin/temples/new")}>เพิ่มวัดใหม่</Button>
             </div>
           </Card>
         )}
@@ -77,13 +77,13 @@ const AdminTempleList = () => {
                   <p className="text-xs text-muted-foreground mt-1">slug: {t.temple_id}</p>
                 </div>
                 <div className="whitespace-nowrap flex flex-col gap-2">
-                  <Button variant="outline" onClick={() => navigate(`/prophesy/admin/temples/${t.temple_id}/edit`)}>
+                  <Button variant="outline" onClick={() => navigate(`/fortune/admin/temples/${t.temple_id}/edit`)}>
                     แก้ไขวัด
                   </Button>
-                  <Button variant="secondary" onClick={() => navigate(`/prophesy/admin/temples/${t.temple_id}/fortunes`)}>
+                  <Button variant="secondary" onClick={() => navigate(`/fortune/admin/temples/${t.temple_id}/fortunes`)}>
                     จัดการเซียมซี
                   </Button>
-                  <Button onClick={() => navigate(`/prophesy/admin/temples/${t.temple_id}/fortunes/new`)}>
+                  <Button onClick={() => navigate(`/fortune/admin/temples/${t.temple_id}/fortunes/new`)}>
                     เพิ่มเซียมซี
                   </Button>
                 </div>

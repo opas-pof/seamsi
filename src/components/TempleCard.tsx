@@ -16,7 +16,7 @@ const TempleCard = ({ temple }: TempleCardProps) => {
   return (
     <Card 
       className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-sm border-border/50 hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all duration-300 hover:scale-105 animate-fade-in"
-      onClick={() => navigate(`/prophesy/seamsi/temple/${temple.id}`)}
+      onClick={() => navigate(`/fortune/seamsi/temple/${temple.id}`)}
     >
       <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 relative overflow-hidden">
         {temple.image ? (

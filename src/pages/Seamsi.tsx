@@ -57,7 +57,7 @@ const Seamsi = () => {
         return;
       }
       const f = fortunes[Math.floor(Math.random() * fortunes.length)];
-      navigate(`/prophesy/seamsi/prediction/${String(f.fortune_number)}`,
+      navigate(`/fortune/seamsi/prediction/${String(f.fortune_number)}`,
         { state: { temple: randomTemple, fortune: f } }
       );
     }, 5000);

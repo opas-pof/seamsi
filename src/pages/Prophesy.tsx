@@ -28,7 +28,7 @@ const Prophesy = () => {
           {/* Seamsi Card */}
           <Card 
             className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-sm border-border/50 hover:shadow-[0_0_40px_hsl(var(--primary)/0.4)] transition-all duration-300 hover:scale-105 animate-scale-in p-8"
-            onClick={() => navigate("/prophesy/seamsi")}
+            onClick={() => navigate("/fortune/seamsi")}
           >
             <div className="flex flex-col items-center text-center space-y-6">
               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-secondary p-1">
@@ -50,7 +50,7 @@ const Prophesy = () => {
           {/* Lagna Checker Card */}
           <Card 
             className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-sm border-border/50 hover:shadow-[0_0_40px_hsl(var(--primary)/0.4)] transition-all duration-300 hover:scale-105 animate-scale-in p-8"
-            onClick={() => navigate("/prophesy/lagna")}
+            onClick={() => navigate("/fortune/lagna")}
           >
             <div className="flex flex-col items-center text-center space-y-6">
               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-secondary p-1">
