@@ -1,12 +1,5 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'เช็กลัคนา',
-  description: 'คำนวณลัคนาจากวันและเวลาเกิด',
-  openGraph: { url: '/fortune/lagna' }
-};
 
 const months = [
   'มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน',

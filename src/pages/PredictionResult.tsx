@@ -2,7 +2,6 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import GradientBackground from "@/components/GradientBackground";
 import useSeo from "@/hooks/useSeo";
 import { buildSeoFromFortuneRecord } from "@/lib/seo";
-import { predictions } from "@/data/predictions";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
