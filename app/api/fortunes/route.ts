@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabase-server';
 
+export const runtime = 'edge';
+
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const temple = url.searchParams.get('temple');
