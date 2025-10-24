@@ -10,8 +10,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Ignore legacy Vite pages under src/pages by restricting pages router extensions
-  pageExtensions: ['page.tsx', 'page.ts'],
 };
 
 export default nextConfig;
