@@ -36,6 +36,28 @@ npm i
 npm run dev
 ```
 
+## Run with Next.js SSG
+
+1) Install dependencies
+
+```sh
+npm install
+```
+
+2) Dev server
+
+```sh
+npm run next:dev
+```
+
+3) Build + Export static site
+
+```sh
+npm run build:ssg
+```
+
+Static output will be in `out/` and can be deployed to Cloudflare Pages.
+
 **Edit a file directly in GitHub**
 
 - Navigate to the desired file(s).

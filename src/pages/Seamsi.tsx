@@ -101,7 +101,7 @@ const Seamsi = () => {
           </div>          
         </div>
 
-        <div className="relative mb-8 mt-[-62px] pt-24 bg-white w-full before:content-[''] before:w-[327px] before:h-[134px] before:absolute before:top-[-54px] before:left-1/2 before:-translate-x-1/2 before:bg-[url('/assets/images/base.png')] before:bg-cover before:bg-center">
+        <div className="relative pb-8 mt-[-62px] pt-24 bg-white w-full before:content-[''] before:w-[327px] before:h-[134px] before:absolute before:top-[-54px] before:left-1/2 before:-translate-x-1/2 before:bg-[url('/assets/images/base.png')] before:bg-cover before:bg-center">
           <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
             เลือกวัดที่ต้องการ
           </h3>
