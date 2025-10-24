@@ -9,24 +9,19 @@ type Props = { params: { number: string } };
 // ไม่ generate static params ในโหมด SSR/Dev เพื่อลดเงื่อนไขตอนพัฒนา
 
 export async function generateMetadata(
-  { params, searchParams }: any,
+  { params }: { params: Promise<{ number: string }> },
   _parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const spTitle = typeof searchParams?.title === 'string' ? searchParams.title : '';
-  const spContent = typeof searchParams?.content === 'string' ? searchParams.content : '';
-  let title = spTitle;
-  let description = spContent;
-  if (!title || !description) {
-    const num = parseInt(params.number, 10);
-    const { data } = await supabase
-      .from('fortunes')
-      .select('fortune_number,title,content')
-      .eq('fortune_number', num)
-      .limit(1);
-    const row = (data ?? [])[0];
-    title = title || (row?.title ? String(row.title) : `ผลเซียมซีใบที่ ${params.number}`);
-    description = description || (row?.content ? String(row.content) : 'คำทำนาย');
-  }
+  const { number } = await params;
+  const num = parseInt(number, 10);
+  const { data } = await supabase
+    .from('fortunes')
+    .select('fortune_number,title,content')
+    .eq('fortune_number', num)
+    .limit(1);
+  const row = (data ?? [])[0];
+  const title = row?.title ? String(row.title) : `ผลเซียมซีใบที่ ${number}`;
+  const description = row?.content ? String(row.content) : 'คำทำนาย';
   const image = '/assets/images/og-fortune.jpg';
   return {
     title,
@@ -34,7 +29,7 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      url: `/fortune/seamsi/prediction/${params.number}`,
+      url: `/fortune/seamsi/prediction/${number}`,
       images: [image],
       type: 'article'
     },
@@ -42,29 +37,26 @@ export async function generateMetadata(
   };
 }
 
-export default async function Page({ params, searchParams }: any) {
-  let title: string | undefined = typeof searchParams?.title === 'string' ? searchParams.title : undefined;
-  let content: string | undefined = typeof searchParams?.content === 'string' ? searchParams.content : undefined;
-  let templeName: string | undefined = typeof searchParams?.temple === 'string' ? searchParams.temple : undefined;
-  if (!title || !content || !templeName) {
-    const num = parseInt(params.number, 10);
-    const { data: f } = await supabase
-      .from('fortunes')
-      .select('fortune_number,title,content,temple_id')
-      .eq('fortune_number', num)
+export default async function Page({ params }: { params: Promise<{ number: string }> }) {
+  const { number } = await params;
+  const num = parseInt(number, 10);
+  const { data: f } = await supabase
+    .from('fortunes')
+    .select('fortune_number,title,content,temple_id')
+    .eq('fortune_number', num)
+    .limit(1);
+  const row = (f ?? [])[0];
+  if (!row) return notFound();
+  const title = String(row.title ?? `ผลเซียมซีใบที่ ${number}`);
+  const content = String(row.content ?? '');
+  let templeName: string | undefined = undefined;
+  if (row.temple_id) {
+    const { data: t } = await supabase
+      .from('temples')
+      .select('name')
+      .eq('temple_id', row.temple_id)
       .limit(1);
-    const row = (f ?? [])[0];
-    if (!row) return notFound();
-    title = title || String(row.title ?? `ผลเซียมซีใบที่ ${params.number}`);
-    content = content || String(row.content ?? '');
-    if (!templeName && row.temple_id) {
-      const { data: t } = await supabase
-        .from('temples')
-        .select('name')
-        .eq('temple_id', row.temple_id)
-        .limit(1);
-      templeName = (t ?? [])[0]?.name as string | undefined;
-    }
+    templeName = (t ?? [])[0]?.name as string | undefined;
   }
   return (
     <GradientBackground>
