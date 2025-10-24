@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase-next';
 import SeamsiIcon from '@/components/SeamsiIcon';
 import TempleRandomClient from './TempleRandomClient';
 
-type Props = { params: { id: string } };
+type PageParams = { id: string };
 
 // SSG แบบ on-demand: ถ้า export ทั้งหมดช้า/ดาต้าเยอะ ให้คงเพจนี้เป็น dynamic โดยไม่ใส่ generateStaticParams
 // เลือกอย่างใดอย่างหนึ่งเท่านั้น หากต้องการ export เต็ม ให้ uncomment ด้านล่าง
@@ -12,11 +12,12 @@ type Props = { params: { id: string } };
 //   return (data ?? []).map((t: any) => ({ id: t.temple_id }));
 // }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params }: { params: Promise<PageParams> }) {
+  const { id } = await params;
   const { data: row } = await supabase
     .from('temples')
     .select('temple_id,name,description,location,image')
-    .eq('temple_id', params.id)
+    .eq('temple_id', id)
     .maybeSingle();
   if (!row) return notFound();
 
