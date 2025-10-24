@@ -1,13 +1,13 @@
-import type { MetadataRoute } from 'next';
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export async function GET() {
   const base = 'https://example.com';
-  return [
-    { url: `${base}/`, lastModified: new Date() },
-    { url: `${base}/fortune`, lastModified: new Date() },
-    { url: `${base}/fortune/seamsi`, lastModified: new Date() },
-    { url: `${base}/fortune/lagna`, lastModified: new Date() },
-  ];
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${base}/</loc></url>
+  <url><loc>${base}/fortune</loc></url>
+  <url><loc>${base}/fortune/seamsi</loc></url>
+  <url><loc>${base}/fortune/lagna</loc></url>
+</urlset>`;
+  return new Response(body, { headers: { 'Content-Type': 'application/xml' } });
 }
 
 
