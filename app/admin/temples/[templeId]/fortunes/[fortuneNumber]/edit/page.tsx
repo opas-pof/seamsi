@@ -37,7 +37,7 @@ export default function AdminFortuneEdit() {
     const load = async () => {
       if (!templeId || !fortuneNumber) return;
       try {
-        const res = await fetch(`/api/fortunes?temple=${encodeURIComponent(templeId)}&number=${fortuneNumber}`, { cache: 'no-store' });
+        const res = await fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&number=${fortuneNumber}`, { cache: 'no-store' });
         const json = await res.json();
         const data = json?.row;
         if (data) {

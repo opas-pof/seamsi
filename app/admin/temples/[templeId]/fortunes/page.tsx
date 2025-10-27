@@ -34,7 +34,7 @@ export default function AdminFortuneList() {
     try {
       const [tRes, fRes] = await Promise.all([
         supabase.from('temples').select('name').eq('temple_id', templeId).maybeSingle(),
-        fetch(`/api/fortunes?temple=${encodeURIComponent(templeId)}`, { cache: 'no-store' }).then((r) => r.json()),
+        fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}`, { cache: 'no-store' }).then((r) => r.json()),
       ]);
       if (tRes?.data?.name) setTempleName(tRes.data.name);
       const rows = Array.isArray(fRes?.rows) ? fRes.rows : [];
