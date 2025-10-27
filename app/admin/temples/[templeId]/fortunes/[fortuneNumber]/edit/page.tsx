@@ -123,13 +123,13 @@ export default function AdminFortuneEdit() {
             <Input placeholder="หัวข้อ" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
             <Textarea placeholder="คำทำนาย" value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} />
             <div className="pt-4">
-              <h2 className="text-lg font-semibold mb-2">SEO / SMO</h2>
+              <h2 className="text-lg font-semibold mb-2">SEO</h2>
               <div className="space-y-3">
                 <Input placeholder="SEO Title (title)" value={form.seo_title} onChange={(e) => setForm({ ...form, seo_title: e.target.value })} />
                 <Textarea placeholder="SEO Description (meta description)" value={form.seo_description} onChange={(e) => setForm({ ...form, seo_description: e.target.value })} />
                 <Input placeholder="SEO Keywords (คั่นด้วย comma)" value={form.seo_keywords} onChange={(e) => setForm({ ...form, seo_keywords: e.target.value })} />
                 <div className="space-y-2">
-                  <label className="block text-sm">SEO/OG Image</label>
+                  <label className="block text-lg font-semibold mb-2">SMO</label>
                   {form.seo_image && (
                     <div className="rounded border p-2 bg-muted/20">
                       <img src={form.seo_image} alt="ตัวอย่าง OG" className="max_h-48 object-contain mx-auto" />
