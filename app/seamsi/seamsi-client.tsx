@@ -57,12 +57,12 @@ export default function SeamsiClient() {
           // Random: temple -> one fortune
           const randomTemple = temples[Math.floor(Math.random() * temples.length)];
           const templeId = (randomTemple.id || '').trim();
-          const res = await fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`, { cache: 'no-store' });
+          const res = await fetch(`/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`, { cache: 'no-store' });
           const json = await res.json();
           if (json?.row) {
             const f = json.row;
             const num = String(f.fortune_number).padStart(3, '0');
-            router.push(`/fortune/seamsi/prediction/${num}`);
+            router.push(`/seamsi/prediction/${num}`);
           } else {
             // ไม่แสดงข้อความรบกวนผู้ใช้ แค่ log ไว้เฉยๆ
             console.warn('[seamsi] no fortune for temple', templeId);
@@ -130,7 +130,7 @@ export default function SeamsiClient() {
             const f = (row ?? [])[0];
             if (!f) { setError('สุ่มไม่สำเร็จ'); return; }
             const num = String(f.fortune_number).padStart(3, '0');
-            router.push(`/fortune/seamsi/prediction/${num}`);
+            router.push(`/seamsi/prediction/${num}`);
             return;
           }
 
@@ -160,11 +160,11 @@ export default function SeamsiClient() {
             if (arr.length === 0) { setError('ไม่พบใบเซียมซีของวัดนี้'); return; }
             const f2 = arr[Math.floor(Math.random() * arr.length)];
             const num2 = String(f2.fortune_number).padStart(3, '0');
-            router.push(`/fortune/seamsi/prediction/${num2}`);
+            router.push(`/seamsi/prediction/${num2}`);
             return;
           }
           const num = String(f.fortune_number).padStart(3, '0');
-          router.push(`/fortune/seamsi/prediction/${num}`);
+          router.push(`/seamsi/prediction/${num}`);
         })
         .catch((e) => {
           console.error('[seamsi] unexpected error', e);
