@@ -9,41 +9,26 @@ export async function GET(req: Request) {
   const random = url.searchParams.get('random');
   const number = url.searchParams.get('number');
 
-  console.log('[API] GET request:', { url: url.toString(), temple, random, number, origin: req.headers.get('origin') });
-  console.log('[API] random type:', typeof random, 'value:', random, 'equal to 1?', random === '1');
-
   try {
     if (temple) {
       if (random === '1' || random === 'true') {
-        // Random one fortune for temple
-        console.log('[API] Random fortune request for temple:', temple);
         const { count, error: countErr } = await supabase
           .from('fortunes')
           .select('fortune_number', { count: 'exact', head: true })
           .eq('temple_id', temple);
-        console.log('[API] Count result:', { count, error: countErr?.message });
         if (countErr) throw countErr;
         const total = count ?? 0;
-        if (total <= 0) {
-          console.log('[API] No fortunes found for temple:', temple);
-          return NextResponse.json({ row: null, total }, { status: 200 });
-        }
+        if (total <= 0) return NextResponse.json({ row: null, total }, { status: 200 });
         const idx = Math.floor(Math.random() * total);
-        console.log('[API] Fetching fortune at index:', idx, 'of', total);
         const { data, error } = await supabase
           .from('fortunes')
           .select('temple_id,fortune_number,title,content')
           .eq('temple_id', temple)
           .order('fortune_number')
           .range(idx, idx);
-        console.log('[API] Fortune result:', { dataLength: data?.length, error: error?.message });
         if (error) throw error;
         const row = (data ?? [])[0] ?? null;
-        console.log('[API] Returning row:', row ? 'found' : 'null');
-        const response = NextResponse.json({ row, total }, { status: 200 });
-        response.headers.set('Access-Control-Allow-Origin', '*');
-        response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
-        return response;
+        return NextResponse.json({ row, total }, { status: 200 });
       }
       if (number && !random) {
         // Single fortune by temple and number
@@ -57,7 +42,6 @@ export async function GET(req: Request) {
         return NextResponse.json({ row: data ?? null }, { status: 200 });
       }
       // All fortunes of a temple
-      console.log('[API] FALLBACK: All fortunes, random was:', random);
       const { data, error } = await supabase
         .from('fortunes')
         .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
@@ -65,7 +49,7 @@ export async function GET(req: Request) {
         .order('fortune_number', { ascending: true })
         .limit(1000);
       if (error) throw error;
-      return NextResponse.json({ rows: data, _debug: { random, number, why: 'fallback to all fortunes' } }, { status: 200 });
+      return NextResponse.json({ rows: data }, { status: 200 });
     }
 
     // All fortunes (no filter)

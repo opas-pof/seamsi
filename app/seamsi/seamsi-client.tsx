@@ -36,7 +36,6 @@ export default function SeamsiClient() {
             image: (t.image ?? undefined) as string | undefined,
           }));
           setTemples(mapped);
-          console.log('[seamsi] temples loaded', mapped.length);
           if (mapped.length === 0) setError('ไม่พบวัดในระบบ');
         }
       } finally {
@@ -51,155 +50,32 @@ export default function SeamsiClient() {
     setIsShaking(true);
     setTimeout(() => {
       setIsShaking(false);
-      // Debug: ดึง fortunes ทั้งตารางมาโชว์ใน log (ตัดการสุ่มชั่วคราว)
       (async () => {
         try {
-          // Random: temple -> one fortune
           const randomTemple = temples[Math.floor(Math.random() * temples.length)];
           const templeId = (randomTemple.id || '').trim();
-          console.log('[seamsi CLIENT] Selected temple:', templeId);
           const timestamp = Date.now();
-          const apiUrl = `/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1&_t=${timestamp}`;
-          console.log('[seamsi CLIENT] Fetching API:', apiUrl);
-          console.log('[seamsi CLIENT] Full URL:', window.location.origin + apiUrl);
-          const res = await fetch(apiUrl, { 
-            cache: 'no-store',
-            headers: {
-              'Cache-Control': 'no-cache, no-store, must-revalidate',
-              'Pragma': 'no-cache'
-            }
+          const res = await fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1&_t=${timestamp}`, { 
+            cache: 'no-store'
           });
-          console.log('[seamsi CLIENT] Response status:', res.status);
-          const text = await res.text();
-          console.log('[seamsi CLIENT] Response RAW text:', text);
-          const json = JSON.parse(text);
-          console.log('[seamsi CLIENT] Response JSON:', json);
-          console.log('[seamsi CLIENT] Response JSON stringified:', JSON.stringify(json, null, 2));
-          console.log('[seamsi CLIENT] Has row?', !!json?.row);
-          console.log('[seamsi CLIENT] Has rows?', !!json?.rows);
-          console.log('[seamsi CLIENT] Row data:', json?.row);
+          const json = await res.json();
           
           // รองรับทั้ง format {row} และ {rows}
           let fortuneData = null;
           if (json?.row) {
             fortuneData = json.row;
-            console.log('[seamsi CLIENT] Using row format');
           } else if (json?.rows && Array.isArray(json.rows) && json.rows.length > 0) {
-            // ถ้าได้ rows มา ให้สุ่มเลือก 1 ตัว
             fortuneData = json.rows[Math.floor(Math.random() * json.rows.length)];
-            console.log('[seamsi CLIENT] Using rows format, selected random from', json.rows.length, 'items');
           }
           
           if (fortuneData) {
             const num = String(fortuneData.fortune_number).padStart(3, '0');
-            console.log('[seamsi CLIENT] Navigating to:', `/seamsi/prediction/${num}`);
             router.push(`/seamsi/prediction/${num}`);
-          } else {
-            console.warn('[seamsi CLIENT] no fortune for temple', templeId, 'response:', json);
           }
         } catch (e) {
-          console.error('[seamsi CLIENT] random via server api error', e);
+          // Silent error
         }
       })();
-      return; // ตัด flow ต่อจากนี้เพื่อไม่ให้ข้อความ error จากเส้นทางเดิมแสดง
-      if (temples.length === 0) {
-        console.error('[seamsi] temples is empty');
-        setError('ไม่พบวัดสำหรับสุ่ม');
-        return;
-      }
-      const randomTemple = temples[Math.floor(Math.random() * temples.length)];
-      console.log('[seamsi] selected temple', randomTemple);
-      const templeId = (randomTemple.id || '').trim();
-      // Step 1: ดึงจำนวนเรคคอร์ดของวัดนี้
-      console.log('[seamsi] templeId for query', templeId);
-      // Approach A: count -> range (หลัก)
-      supabase
-        .from('fortunes')
-        .select('fortune_number', { count: 'exact', head: true })
-        .eq('temple_id', templeId)
-        .then(async ({ count, error }) => {
-          if (error) {
-            console.error('[seamsi] count error', error);
-            setError(error.message);
-            return;
-          }
-          const total = count ?? 0;
-          console.log('[seamsi] fortunes total (eq)', total);
-          if (total <= 0) {
-            // debug: นับจำนวนทั้งหมดที่อ่านได้ (ไม่กรองวัด) เพื่อเช็ค RLS
-            const { count: allCount } = await supabase
-              .from('fortunes')
-              .select('fortune_number', { count: 'exact', head: true });
-            console.log('[seamsi] fortunes total (all rows visible)', allCount ?? 0);
-            // debug: ลองดึง 1 แถวด้วย eq เพื่อตรวจสอบว่าติด RLS หรือ temple_id ไม่ตรง
-            const { data: peek } = await supabase
-              .from('fortunes')
-              .select('temple_id,fortune_number')
-              .eq('temple_id', templeId)
-              .limit(1);
-            console.log('[seamsi] peek eq result', peek);
-            // ลอง ilike เป็น fallback
-            const { count: c2 } = await supabase
-              .from('fortunes')
-              .select('fortune_number', { count: 'exact', head: true })
-              .ilike('temple_id', `%${templeId}%`);
-            const total2 = c2 ?? 0;
-            console.log('[seamsi] fortunes total (ilike)', total2);
-            if (total2 <= 0) {
-              setError('ไม่พบใบเซียมซีของวัดนี้');
-              return;
-            }
-            // ใช้ total2 และคิวรีด้วย ilike
-            const idx = Math.floor(Math.random() * total2);
-            const { data: row } = await supabase
-              .from('fortunes')
-              .select('fortune_number,title,content')
-              .ilike('temple_id', `%${templeId}%`)
-              .order('fortune_number')
-              .range(idx, idx);
-            const f = (row ?? [])[0];
-            if (!f) { setError('สุ่มไม่สำเร็จ'); return; }
-            const num = String(f.fortune_number).padStart(3, '0');
-            router.push(`/seamsi/prediction/${num}`);
-            return;
-          }
-
-          const idx = Math.floor(Math.random() * total);
-          // Step 2: ดึงเฉพาะเรคคอร์ดลำดับ idx ตาม fortune_number
-          const { data: row } = await supabase
-            .from('fortunes')
-            .select('fortune_number,title,content')
-            .eq('temple_id', templeId)
-            .order('fortune_number')
-            .range(idx, idx);
-          const f = (row ?? [])[0];
-          if (!f) {
-            // Approach B: fallback ไม่ใช้ count เลย -> ดึงลิสต์ตรงๆ แล้วสุ่ม
-            console.warn('[seamsi] fallback list without count');
-            const { data: list2, error: e2 } = await supabase
-              .from('fortunes')
-              .select('fortune_number,title,content')
-              .eq('temple_id', templeId)
-              .limit(1000);
-            if (e2) {
-              console.error('[seamsi] fallback error', e2);
-              setError('เกิดข้อผิดพลาดในการสุ่ม');
-              return;
-            }
-            const arr = list2 ?? [];
-            if (arr.length === 0) { setError('ไม่พบใบเซียมซีของวัดนี้'); return; }
-            const f2 = arr[Math.floor(Math.random() * arr.length)];
-            const num2 = String(f2.fortune_number).padStart(3, '0');
-            router.push(`/seamsi/prediction/${num2}`);
-            return;
-          }
-          const num = String(f.fortune_number).padStart(3, '0');
-          router.push(`/seamsi/prediction/${num}`);
-        })
-        .catch((e) => {
-          console.error('[seamsi] unexpected error', e);
-          setError('เกิดข้อผิดพลาดในการสุ่ม');
-        });
     }, 5000);
   };
 
