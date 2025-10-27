@@ -10,7 +10,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // ไม่ต้องใช้ basePath เพราะย้ายไฟล์ออกมาแล้ว
+  // ตั้งค่า basePath เพื่อให้ CSS ทำงานถูกต้อง
+  basePath: '/fortune',
+  assetPrefix: '/fortune',
   trailingSlash: false,
 };
 
