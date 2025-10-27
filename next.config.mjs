@@ -10,7 +10,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // ลบ basePath เพราะ Cloudflare Pages จัดการให้แล้ว
+  // ไม่ต้องใช้ basePath เพราะย้ายไฟล์ออกมาแล้ว
   trailingSlash: false,
 };
 
