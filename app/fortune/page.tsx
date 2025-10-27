@@ -1,0 +1,51 @@
+import Link from 'next/link';
+import type { Metadata } from 'next';
+import { seoRegistry } from '@/lib/seo';
+
+export const metadata: Metadata = {
+  title: seoRegistry.fortune.title,
+  description: seoRegistry.fortune.description,
+  keywords: seoRegistry.fortune.keywords?.join(', '),
+  openGraph: {
+    title: seoRegistry.fortune.ogTitle,
+    description: seoRegistry.fortune.ogDescription,
+    images: [{ url: seoRegistry.fortune.image }],
+    url: '/fortune',
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: seoRegistry.fortune.ogTitle,
+    description: seoRegistry.fortune.ogDescription,
+    images: [seoRegistry.fortune.image]
+  }
+};
+
+export default function FortunePage() {
+  return (
+    <div className="container mx-auto px-4 py-16">
+      <div className="text-center mb-12">
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
+          ทำนายดวงชะตา
+        </h1>
+        <p className="text-xl text-muted-foreground">เลือกวิธีการทำนายที่คุณสนใจ</p>
+      </div>
+
+      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Link href="/seamsi" className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-sm border border-border/50 hover:shadow-[0_0_40px_hsl(var(--primary)/0.4)] transition-all duration-300 hover:scale-105 p-8 rounded-lg block text-center">
+          <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            ทำนายเซียมซี
+          </div>
+          <div className="text-muted-foreground">เสี่ยงเซียมซีจากวัดดัง เพื่อทำนายดวงชะตา</div>
+        </Link>
+
+        <Link href="/lagna" className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-sm border border-border/50 hover:shadow-[0_0_40px_hsl(var(--primary)/0.4)] transition-all duration-300 hover:scale-105 p-8 rounded-lg block text-center">
+          <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            เช็กลัคนา
+          </div>
+          <div className="text-muted-foreground">กรอกวันและเวลาเกิด เพื่อตรวจลัคนาของคุณ</div>
+        </Link>
+      </div>
+    </div>
+  );
+}
