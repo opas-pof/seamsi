@@ -37,7 +37,8 @@ export default function AdminFortuneEdit() {
     const load = async () => {
       if (!templeId || !fortuneNumber) return;
       try {
-        const res = await fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&number=${fortuneNumber}`, { cache: 'no-store' });
+        const basePath = window.location.pathname.includes('/fortune/') ? '/fortune' : '';
+        const res = await fetch(`${basePath}/api/fortunes?temple=${encodeURIComponent(templeId)}&number=${fortuneNumber}&_t=${Date.now()}`, { cache: 'no-store' });
         const json = await res.json();
         const data = json?.row;
         if (data) {
@@ -51,6 +52,8 @@ export default function AdminFortuneEdit() {
             smo_title: data.smo_title ?? '',
             smo_description: data.smo_description ?? ''
           });
+        } else {
+          setError('ไม่พบข้อมูลเซียมซี');
         }
       } catch (e: any) {
         setError(e?.message || 'โหลดข้อมูลไม่สำเร็จ');
@@ -70,7 +73,8 @@ export default function AdminFortuneEdit() {
       .map((s) => s.trim())
       .filter((s) => s.length > 0);
     try {
-      const res = await fetch('/fortune/api/fortunes', {
+      const basePath = window.location.pathname.includes('/fortune/') ? '/fortune' : '';
+      const res = await fetch(`${basePath}/api/fortunes`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
