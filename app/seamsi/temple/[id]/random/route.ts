@@ -20,7 +20,7 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
     title: f.title ?? '',
     content: f.content ?? '',
   }).toString();
-  return NextResponse.redirect(new URL(`/seamsi/prediction/${num}?${q}`, base));
+  return NextResponse.redirect(new URL(`/fortune/seamsi/prediction/${num}?${q}`, base));
 }
 
 
