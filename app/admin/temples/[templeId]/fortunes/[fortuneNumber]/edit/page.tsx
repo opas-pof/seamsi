@@ -40,7 +40,18 @@ export default function AdminFortuneEdit() {
         const basePath = window.location.pathname.includes('/fortune/') ? '/fortune' : '';
         const res = await fetch(`${basePath}/api/fortunes?temple=${encodeURIComponent(templeId)}&number=${fortuneNumber}&_t=${Date.now()}`, { cache: 'no-store' });
         const json = await res.json();
-        const data = json?.row;
+        
+        // รองรับทั้ง format {row} และ {rows}
+        let data = null;
+        if (json?.row) {
+          data = json.row;
+        } else if (json?.rows && Array.isArray(json.rows) && json.rows.length > 0) {
+          // ถ้าได้ rows มา ให้หา fortune ที่ตรงกับทั้ง temple_id และ fortune_number
+          data = json.rows.find((f: any) => 
+            f.temple_id === templeId && f.fortune_number === Number(fortuneNumber)
+          );
+        }
+        
         if (data) {
           setForm({
             title: data.title ?? '',
