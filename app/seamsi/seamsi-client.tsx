@@ -58,16 +58,40 @@ export default function SeamsiClient() {
           const randomTemple = temples[Math.floor(Math.random() * temples.length)];
           const templeId = (randomTemple.id || '').trim();
           console.log('[seamsi CLIENT] Selected temple:', templeId);
-          console.log('[seamsi CLIENT] Fetching API:', `/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`);
-          const res = await fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`, { cache: 'no-store' });
+          const timestamp = Date.now();
+          const apiUrl = `/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1&_t=${timestamp}`;
+          console.log('[seamsi CLIENT] Fetching API:', apiUrl);
+          console.log('[seamsi CLIENT] Full URL:', window.location.origin + apiUrl);
+          const res = await fetch(apiUrl, { 
+            cache: 'no-store',
+            headers: {
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache'
+            }
+          });
           console.log('[seamsi CLIENT] Response status:', res.status);
-          const json = await res.json();
+          const text = await res.text();
+          console.log('[seamsi CLIENT] Response RAW text:', text);
+          const json = JSON.parse(text);
           console.log('[seamsi CLIENT] Response JSON:', json);
+          console.log('[seamsi CLIENT] Response JSON stringified:', JSON.stringify(json, null, 2));
           console.log('[seamsi CLIENT] Has row?', !!json?.row);
+          console.log('[seamsi CLIENT] Has rows?', !!json?.rows);
           console.log('[seamsi CLIENT] Row data:', json?.row);
+          
+          // รองรับทั้ง format {row} และ {rows}
+          let fortuneData = null;
           if (json?.row) {
-            const f = json.row;
-            const num = String(f.fortune_number).padStart(3, '0');
+            fortuneData = json.row;
+            console.log('[seamsi CLIENT] Using row format');
+          } else if (json?.rows && Array.isArray(json.rows) && json.rows.length > 0) {
+            // ถ้าได้ rows มา ให้สุ่มเลือก 1 ตัว
+            fortuneData = json.rows[Math.floor(Math.random() * json.rows.length)];
+            console.log('[seamsi CLIENT] Using rows format, selected random from', json.rows.length, 'items');
+          }
+          
+          if (fortuneData) {
+            const num = String(fortuneData.fortune_number).padStart(3, '0');
             console.log('[seamsi CLIENT] Navigating to:', `/seamsi/prediction/${num}`);
             router.push(`/seamsi/prediction/${num}`);
           } else {
