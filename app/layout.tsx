@@ -3,7 +3,7 @@ import './globals.css';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://horoscope.kapook.com'),
+  metadataBase: new URL('https://horoscope.kapook.com/fortune'),
   title: 'เสี่ยงเซียมซี เช็กลัคนา ดูดวง 12 ราศี พร้อมสุ่มพรวิเศษแม่น ๆ',
   description: 'เปิดดวง เสี่ยงเซียมซี เช็กลัคนา ดวงชะตา 12 ราศี ดูดวงออนไลน์ฟรี พร้อมสุ่มพรวิเศษ เปิดคำทำนายแม่น ๆ และเคล็ดลับเสริมดวงที่ดูดวง kapook.com',
   openGraph: {
