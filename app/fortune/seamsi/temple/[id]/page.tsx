@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase-next';
+import { buildSeoFromTempleRecord } from '@/lib/seo';
 import SeamsiIcon from '@/components/SeamsiIcon';
 import TempleRandomClient from './TempleRandomClient';
+import type { Metadata } from 'next';
 
 type PageParams = { id: string };
 
@@ -11,6 +13,42 @@ type PageParams = { id: string };
 //   const { data } = await supabase.from('temples').select('temple_id');
 //   return (data ?? []).map((t: any) => ({ id: t.temple_id }));
 // }
+
+export async function generateMetadata({ params }: { params: Promise<PageParams> }): Promise<Metadata> {
+  const { id } = await params;
+  const { data: row } = await supabase
+    .from('temples')
+    .select('temple_id,name,description,location,image,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
+    .eq('temple_id', id)
+    .maybeSingle();
+  
+  if (!row) {
+    return {
+      title: 'ไม่พบข้อมูลวัด',
+      description: 'ไม่พบข้อมูลวัดที่ต้องการ'
+    };
+  }
+
+  const seo = buildSeoFromTempleRecord(row);
+  
+  return {
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords?.join(', '),
+    openGraph: {
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      images: seo.image ? [{ url: seo.image }] : undefined,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      images: seo.image ? [seo.image] : undefined,
+    },
+  };
+}
 
 export default async function Page({ params }: { params: Promise<PageParams> }) {
   const { id } = await params;

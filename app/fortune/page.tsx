@@ -1,13 +1,23 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { seoRegistry } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'ทำนายดวงชะตา',
-  description: 'เลือกวิธีการทำนายที่คุณสนใจ',
+  title: seoRegistry.fortune.title,
+  description: seoRegistry.fortune.description,
+  keywords: seoRegistry.fortune.keywords?.join(', '),
   openGraph: {
-    title: 'ทำนายดวงชะตา',
-    description: 'เลือกวิธีการทำนายที่คุณสนใจ',
-    url: '/fortune'
+    title: seoRegistry.fortune.ogTitle,
+    description: seoRegistry.fortune.ogDescription,
+    images: [{ url: seoRegistry.fortune.image }],
+    url: '/fortune',
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: seoRegistry.fortune.ogTitle,
+    description: seoRegistry.fortune.ogDescription,
+    images: [seoRegistry.fortune.image]
   }
 };
 

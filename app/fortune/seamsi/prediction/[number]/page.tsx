@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase-next';
+import { buildSeoFromFortuneRecord } from '@/lib/seo';
 import GradientBackground from '@/components/GradientBackground';
 import ShareButtons from './share-buttons';
 
@@ -14,26 +15,52 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { number } = await params;
   const num = parseInt(number, 10);
-  const { data } = await supabase
+  
+  // ดึงข้อมูล fortune พร้อม SEO fields
+  const { data: fortuneData } = await supabase
     .from('fortunes')
-    .select('fortune_number,title,content')
+    .select('fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description,temple_id')
     .eq('fortune_number', num)
     .limit(1);
-  const row = (data ?? [])[0];
-  const title = row?.title ? String(row.title) : `ผลเซียมซีใบที่ ${number}`;
-  const description = row?.content ? String(row.content) : 'คำทำนาย';
-  const image = '/assets/images/og-fortune.jpg';
+  
+  const fortune = (fortuneData ?? [])[0];
+  if (!fortune) {
+    return {
+      title: `ผลเซียมซีใบที่ ${number}`,
+      description: 'คำทำนายเซียมซี'
+    };
+  }
+
+  // ดึงข้อมูลวัดถ้ามี temple_id
+  let temple = undefined;
+  if (fortune.temple_id) {
+    const { data: templeData } = await supabase
+      .from('temples')
+      .select('name,image')
+      .eq('temple_id', fortune.temple_id)
+      .limit(1);
+    temple = (templeData ?? [])[0];
+  }
+
+  const seo = buildSeoFromFortuneRecord({ fortune, temple });
+  
   return {
-    title,
-    description,
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords?.join(', '),
     openGraph: {
-      title,
-      description,
+      title: seo.ogTitle,
+      description: seo.ogDescription,
       url: `/fortune/seamsi/prediction/${number}`,
-      images: [image],
+      images: seo.image ? [{ url: seo.image }] : [{ url: '/assets/images/og-fortune.jpg' }],
       type: 'article'
     },
-    twitter: { card: 'summary_large_image', title, description, images: [image] }
+    twitter: { 
+      card: 'summary_large_image', 
+      title: seo.ogTitle, 
+      description: seo.ogDescription, 
+      images: seo.image ? [seo.image] : ['/assets/images/og-fortune.jpg'] 
+    }
   };
 }
 
