@@ -43,7 +43,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ row, total }, { status: 200 });
       }
       // All fortunes of a temple
-      const { data, error } = await supabaseServer
+      const { data, error } = await supabase
         .from('fortunes')
         .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
         .eq('temple_id', temple)
@@ -54,7 +54,7 @@ export async function GET(req: Request) {
     }
 
     // All fortunes (no filter)
-    const { data, error } = await supabaseServer
+    const { data, error } = await supabase
       .from('fortunes')
       .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
       .order('fortune_number', { ascending: true })
