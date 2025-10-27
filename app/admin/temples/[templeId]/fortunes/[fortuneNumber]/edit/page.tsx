@@ -70,7 +70,7 @@ export default function AdminFortuneEdit() {
       .map((s) => s.trim())
       .filter((s) => s.length > 0);
     try {
-      const res = await fetch('/api/fortunes', {
+      const res = await fetch('/fortune/api/fortunes', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
