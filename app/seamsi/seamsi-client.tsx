@@ -57,7 +57,7 @@ export default function SeamsiClient() {
           // Random: temple -> one fortune
           const randomTemple = temples[Math.floor(Math.random() * temples.length)];
           const templeId = (randomTemple.id || '').trim();
-          const res = await fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`, { cache: 'no-store' });
+          const res = await fetch(`/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`, { cache: 'no-store' });
           const json = await res.json();
           if (json?.row) {
             const f = json.row;
