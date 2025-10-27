@@ -5,6 +5,8 @@ import SeamsiIcon from '@/components/SeamsiIcon';
 import TempleRandomClient from './TempleRandomClient';
 import type { Metadata } from 'next';
 
+export const runtime = 'edge';
+
 type PageParams = { id: string };
 
 // SSG แบบ on-demand: ถ้า export ทั้งหมดช้า/ดาต้าเยอะ ให้คงเพจนี้เป็น dynamic โดยไม่ใส่ generateStaticParams

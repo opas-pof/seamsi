@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase-next';
 
+export const runtime = 'edge';
+
 export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
   const { data, error } = await supabase

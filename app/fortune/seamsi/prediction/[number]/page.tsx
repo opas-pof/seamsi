@@ -5,6 +5,8 @@ import { buildSeoFromFortuneRecord } from '@/lib/seo';
 import GradientBackground from '@/components/GradientBackground';
 import ShareButtons from './share-buttons';
 
+export const runtime = 'edge';
+
 type Props = { params: { number: string } };
 
 // ไม่ generate static params ในโหมด SSR/Dev เพื่อลดเงื่อนไขตอนพัฒนา
