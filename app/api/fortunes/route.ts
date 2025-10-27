@@ -10,6 +10,7 @@ export async function GET(req: Request) {
   const number = url.searchParams.get('number');
 
   console.log('[API] GET request:', { url: url.toString(), temple, random, number, origin: req.headers.get('origin') });
+  console.log('[API] random type:', typeof random, 'value:', random, 'equal to 1?', random === '1');
 
   try {
     if (temple) {
@@ -56,6 +57,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ row: data ?? null }, { status: 200 });
       }
       // All fortunes of a temple
+      console.log('[API] FALLBACK: All fortunes, random was:', random);
       const { data, error } = await supabase
         .from('fortunes')
         .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
@@ -63,7 +65,7 @@ export async function GET(req: Request) {
         .order('fortune_number', { ascending: true })
         .limit(1000);
       if (error) throw error;
-      return NextResponse.json({ rows: data }, { status: 200 });
+      return NextResponse.json({ rows: data, _debug: { random, number, why: 'fallback to all fortunes' } }, { status: 200 });
     }
 
     // All fortunes (no filter)

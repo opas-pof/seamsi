@@ -226,7 +226,7 @@ export default function SeamsiClient() {
 
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {temples.map((temple, index) => (
-              <a href={`/seamsi/temple/${temple.id}`} key={temple.id} style={{ animationDelay: `${index * 0.1}s` }} className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-sm border border-border/50 hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all duration-300 hover:scale-105 rounded-lg block">
+              <a href={`/fortune/seamsi/temple/${temple.id}`} key={temple.id} style={{ animationDelay: `${index * 0.1}s` }} className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-sm border border-border/50 hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all duration-300 hover:scale-105 rounded-lg block">
                 <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 relative overflow-hidden">
                   {temple.image ? (
                     <img src={temple.image} alt={temple.name} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
