@@ -43,6 +43,13 @@ export default function LagnaClient() {
     }
   };
 
+  // คำนวณหมายเลขรูปจากชื่อลัคนา
+  const getImageNumber = (signName: string) => {
+    const signs = ['เมษ','พฤษภ','เมถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มังกร','กุมภ์','มีน'];
+    const index = signs.indexOf(signName);
+    return index + 1; // 1-12
+  };
+
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="text-center mb-8">
@@ -99,7 +106,7 @@ export default function LagnaClient() {
           <div className="text-center mt-2 space-y-4">
             <div className="text-xl text-muted-foreground">คุณอยู่ลัคนา</div>
             <div className="text-5xl font-bold mt-1">{result}</div>
-            <img src={`/assets/images/${result}.png`} alt={`ลัคนา ${result}`} className="mx-auto w-56 h-56 object-contain" />
+            <img src={`/fortune/assets/images/${getImageNumber(result)}.png`} alt={`ลัคนา ${result}`} className="mx-auto w-56 h-56 object-contain" />
           </div>
         )}
       </div>
