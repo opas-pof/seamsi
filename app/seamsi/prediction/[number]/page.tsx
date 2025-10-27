@@ -90,7 +90,7 @@ export default async function Page({ params }: { params: Promise<{ number: strin
   return (
     <GradientBackground>
       <div className="container mx-auto px-4 py-16">
-        <a href="/seamsi" className="text-primary">กลับ</a>
+        <a href="/fortune/seamsi" className="text-primary">กลับ</a>
         <div className="max-w-3xl mx-auto mt-6 rounded-lg p-8 bg-white/90 backdrop-blur-sm shadow-[var(--shadow-card)]">
           <div className="text-center mb-8">
             {templeName && (
@@ -106,7 +106,7 @@ export default async function Page({ params }: { params: Promise<{ number: strin
             <p className="text-lg leading-relaxed text-foreground pl-9">{content}</p>
           </div>
           <div className="mt-8 flex items-center justify-between">
-            <a href="/seamsi" className="inline-block px-6 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white">กลับหน้าหลัก</a>
+            <a href="/fortune/seamsi" className="inline-block px-6 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white">กลับหน้าหลัก</a>
             <ShareButtons />
           </div>
         </div>
