@@ -26,7 +26,7 @@ const SeamsiIcon = ({ onClick, isAnimating = false, size = "lg" }: SeamsiIconPro
       )}
       style={{ width: dimensions.container }}
     >
-      <img src="/fortune/assets/images/seamsi.png" alt="เซียมซี" className="w-full h-auto object-contain pointer-events-none block" />
+      <img src="/assets/images/seamsi.png" alt="เซียมซี" className="w-full h-auto object-contain pointer-events-none block" />
     </div>
   );
 };

@@ -10,9 +10,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // ตั้งค่า basePath สำหรับ custom domain
-  basePath: '/fortune',
-  assetPrefix: '/fortune',
+  // ลบ basePath เพราะ Cloudflare Pages จัดการให้แล้ว
   trailingSlash: false,
 };
 

@@ -202,7 +202,7 @@ export default function SeamsiClient() {
           </div>
         </div>
 
-        <div className="relative mb-8 mt-[-62px] pt-24 bg-white w-full before:content-[''] before:w-[327px] before:h-[134px] before:absolute before:top-[-54px] before:left-1/2 before:-translate-x-1/2 before:bg-[url('/fortune/assets/images/base.png')] before:bg-cover before:bg-center">
+        <div className="relative mb-8 mt-[-62px] pt-24 bg-white w-full before:content-[''] before:w-[327px] before:h-[134px] before:absolute before:top-[-54px] before:left-1/2 before:-translate-x-1/2 before:bg-[url('/assets/images/base.png')] before:bg-cover before:bg-center">
           <h3 className="text-3xl font-bold text-center mb-8 text-foreground">เลือกวัดที่ต้องการ</h3>
 
           <div className="absolute z-10 text-white top-[-60px] right-2 flex justify-end items-center gap-3 bg-black/30 backdrop-blur-sm rounded-full pl-6 pr-2 py-1">

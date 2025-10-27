@@ -99,7 +99,7 @@ export default function LagnaClient() {
           <div className="text-center mt-2 space-y-4">
             <div className="text-xl text-muted-foreground">คุณอยู่ลัคนา</div>
             <div className="text-5xl font-bold mt-1">{result}</div>
-            <img src={`/fortune/assets/images/${result}.png`} alt={`ลัคนา ${result}`} className="mx-auto w-56 h-56 object-contain" />
+            <img src={`/assets/images/${result}.png`} alt={`ลัคนา ${result}`} className="mx-auto w-56 h-56 object-contain" />
           </div>
         )}
       </div>
