@@ -57,18 +57,24 @@ export default function SeamsiClient() {
           // Random: temple -> one fortune
           const randomTemple = temples[Math.floor(Math.random() * temples.length)];
           const templeId = (randomTemple.id || '').trim();
+          console.log('[seamsi CLIENT] Selected temple:', templeId);
+          console.log('[seamsi CLIENT] Fetching API:', `/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`);
           const res = await fetch(`/fortune/api/fortunes?temple=${encodeURIComponent(templeId)}&random=1`, { cache: 'no-store' });
+          console.log('[seamsi CLIENT] Response status:', res.status);
           const json = await res.json();
+          console.log('[seamsi CLIENT] Response JSON:', json);
+          console.log('[seamsi CLIENT] Has row?', !!json?.row);
+          console.log('[seamsi CLIENT] Row data:', json?.row);
           if (json?.row) {
             const f = json.row;
             const num = String(f.fortune_number).padStart(3, '0');
+            console.log('[seamsi CLIENT] Navigating to:', `/seamsi/prediction/${num}`);
             router.push(`/seamsi/prediction/${num}`);
           } else {
-            // ไม่แสดงข้อความรบกวนผู้ใช้ แค่ log ไว้เฉยๆ
-            console.warn('[seamsi] no fortune for temple', templeId);
+            console.warn('[seamsi CLIENT] no fortune for temple', templeId, 'response:', json);
           }
         } catch (e) {
-          console.error('[seamsi] random via server api error', e);
+          console.error('[seamsi CLIENT] random via server api error', e);
         }
       })();
       return; // ตัด flow ต่อจากนี้เพื่อไม่ให้ข้อความ error จากเส้นทางเดิมแสดง
