@@ -54,14 +54,14 @@ export async function generateMetadata(
       title: seo.ogTitle,
       description: seo.ogDescription,
       url: `/fortune/seamsi/prediction/${number}`,
-      images: seo.image ? [{ url: seo.image }] : [{ url: '/assets/images/og-fortune.jpg' }],
+      images: seo.image ? [{ url: seo.image }] : [{ url: '/fortune/assets/images/og-fortune.jpg' }],
       type: 'article'
     },
     twitter: { 
       card: 'summary_large_image', 
       title: seo.ogTitle, 
       description: seo.ogDescription, 
-      images: seo.image ? [seo.image] : ['/assets/images/og-fortune.jpg'] 
+      images: seo.image ? [seo.image] : ['/fortune/assets/images/og-fortune.jpg'] 
     }
   };
 }
