@@ -10,6 +10,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // เพิ่มการตั้งค่าสำหรับ custom domain
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
+  basePath: '',
+  trailingSlash: false,
 };
 
 export default nextConfig;
