@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabaseServer } from '@/lib/supabase-server';
+import { supabase } from '@/lib/supabase-next';
 
 export const runtime = 'edge';
 
@@ -13,7 +13,7 @@ export async function GET(req: Request) {
     if (temple) {
       if (number && !random) {
         // Single fortune by temple and number
-        const { data, error } = await supabaseServer
+        const { data, error } = await supabase
           .from('fortunes')
           .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
           .eq('temple_id', temple)
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
       }
       if (random) {
         // Random one fortune for temple
-        const { count, error: countErr } = await supabaseServer
+        const { count, error: countErr } = await supabase
           .from('fortunes')
           .select('fortune_number', { count: 'exact', head: true })
           .eq('temple_id', temple);
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
         const total = count ?? 0;
         if (total <= 0) return NextResponse.json({ row: null, total }, { status: 200 });
         const idx = Math.floor(Math.random() * total);
-        const { data, error } = await supabaseServer
+        const { data, error } = await supabase
           .from('fortunes')
           .select('temple_id,fortune_number,title,content')
           .eq('temple_id', temple)
@@ -93,7 +93,7 @@ export async function PATCH(req: Request) {
       }
     }
 
-    const { error } = await supabaseServer
+    const { error } = await supabase
       .from('fortunes')
       .update(payload)
       .match({ temple_id, fortune_number });
