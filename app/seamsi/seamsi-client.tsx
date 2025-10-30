@@ -70,7 +70,7 @@ export default function SeamsiClient() {
           
           if (fortuneData) {
             const num = String(fortuneData.fortune_number).padStart(3, '0');
-            router.push(`/seamsi/prediction/${num}`);
+            router.push(`/seamsi/prediction/${templeId}/${num}`);
           }
         } catch (e) {
           // Silent error
