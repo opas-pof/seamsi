@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Link from 'next/link';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://horoscope.kapook.com/fortune'),
@@ -20,8 +21,36 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th">
+      <head>
+        <Script id="truehit-page" strategy="beforeInteractive">
+          {`page='seamsi';`}
+        </Script>
+        <Script id="truehit-tracker" strategy="afterInteractive">
+          {`(function(){var ga1 = document.createElement('script');ga1.type='text/javascript';ga1.async=true;ga1.src="//lvs.truehits.in.th/dataa/a0000034.js";var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga1, s);})();`}
+        </Script>
+        
+        <Script 
+          src="https://cdn.thelead.tech/lead/lead-latest.js" 
+          data-project-id="kapook" 
+          data-domain="kapook.com"
+          strategy="afterInteractive"
+        />
+        
+        <Script 
+          src="https://www.googletagmanager.com/gtag/js?id=G-DBZBLF8EQ4" 
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DBZBLF8EQ4');
+          `}
+        </Script>
+      </head>
       <body>
-        <header className="w-full bg-[#3ec9b0] text-white">
+        <header className="w-full bg-[#3ec9b0] text-white relative">
           <div className="container mx-auto">
             <div className="h-16 flex items-center gap-4">
               <Link href="/" className="inline-flex items-center">
@@ -32,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
           </div>
+          <div id="truehits_div" className="absolute top-2 right-4"></div>
         </header>
         <div className="nav w-full h-[45px] bg-[#2bb99f]">
           <nav className="container h-full">
