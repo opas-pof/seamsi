@@ -12,7 +12,6 @@ const nextConfig = {
   },
   // ตั้งค่า basePath เพื่อให้ CSS ทำงานถูกต้อง
   basePath: '/fortune',
-  assetPrefix: '/fortune',
   trailingSlash: false,
 };
 
