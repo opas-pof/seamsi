@@ -6,7 +6,7 @@ import GradientBackground from '@/components/GradientBackground';
 import ShareButtons from './share-buttons';
 export const dynamic = 'force-static';
 export const dynamicParams = false;
-export const revalidate = false;
+export const revalidate = 0;
 
 export async function generateStaticParams() {
   const { data } = await supabase
