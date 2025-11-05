@@ -4,8 +4,22 @@ import { supabase } from '@/lib/supabase-next';
 import { buildSeoFromFortuneRecord } from '@/lib/seo';
 import GradientBackground from '@/components/GradientBackground';
 import ShareButtons from './share-buttons';
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+export const revalidate = false;
 
-export const runtime = 'edge';
+export async function generateStaticParams() {
+  const { data } = await supabase
+    .from('fortunes')
+    .select('temple_id,fortune_number')
+    .order('temple_id')
+    .order('fortune_number');
+
+  return (data ?? []).map((r: any) => ({
+    templeId: String(r.temple_id),
+    number: String(r.fortune_number).padStart(3, '0'),
+  }));
+}
 
 type Props = { params: { templeId: string; number: string } };
 
