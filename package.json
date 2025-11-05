@@ -6,9 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "lint": "eslint .",
-    "pages:build": "opennextjs-cloudflare build"
+    "pages:build": "npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -49,7 +48,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",
-    "next": "15.5.2",
+    "next": "^15.2.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
