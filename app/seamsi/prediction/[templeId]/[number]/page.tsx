@@ -5,7 +5,7 @@ import { buildSeoFromFortuneRecord } from '@/lib/seo';
 import GradientBackground from '@/components/GradientBackground';
 import ShareButtons from './share-buttons';
 export const dynamicParams = false;
-export const revalidate = 31536000; // 1 year – ถือว่า static ในทางปฏิบัติ
+export const revalidate = false;
 
 export async function generateStaticParams() {
   const { data } = await supabase
