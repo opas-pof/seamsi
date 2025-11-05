@@ -6,7 +6,7 @@ import GradientBackground from '@/components/GradientBackground';
 import ShareButtons from './share-buttons';
 export const dynamic = 'force-static';
 export const dynamicParams = false;
-export const revalidate = 0;
+export const revalidate = 31536000; // 1 year – ถือว่า static ในทางปฏิบัติ
 
 export async function generateStaticParams() {
   const { data } = await supabase
