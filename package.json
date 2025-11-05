@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "pages:build": "npx @opennextjs/cloudflare@latest"
+    "pages:build": "opennextjs-cloudflare build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
