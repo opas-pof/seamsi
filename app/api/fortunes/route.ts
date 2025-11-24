@@ -5,12 +5,12 @@ export const runtime = 'edge';
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const temple = url.searchParams.get('temple');
+  const temple = url.searchParams.get('temple')?.trim();
   const random = url.searchParams.get('random');
   const number = url.searchParams.get('number');
 
   try {
-    if (temple) {
+    if (temple && temple.length > 0) {
       if (random === '1' || random === 'true') {
         const { count, error: countErr } = await supabaseServer
           .from('fortunes')
@@ -18,7 +18,14 @@ export async function GET(req: Request) {
           .eq('temple_id', temple);
         if (countErr) throw countErr;
         const total = count ?? 0;
-        if (total <= 0) return NextResponse.json({ row: null, total }, { status: 200 });
+        if (total <= 0) return NextResponse.json({ row: null, total }, { 
+          status: 200,
+          headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+          },
+        });
         const idx = Math.floor(Math.random() * total);
         const { data, error } = await supabaseServer
           .from('fortunes')
@@ -28,7 +35,14 @@ export async function GET(req: Request) {
           .range(idx, idx);
         if (error) throw error;
         const row = (data ?? [])[0] ?? null;
-        return NextResponse.json({ row, total }, { status: 200 });
+        return NextResponse.json({ row, total }, { 
+          status: 200,
+          headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+          },
+        });
       }
       if (number && !random) {
         // Single fortune by temple and number
@@ -39,7 +53,14 @@ export async function GET(req: Request) {
           .eq('fortune_number', Number(number))
           .maybeSingle();
         if (error) throw error;
-        return NextResponse.json({ row: data ?? null }, { status: 200 });
+        return NextResponse.json({ row: data ?? null }, { 
+          status: 200,
+          headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+          },
+        });
       }
       // All fortunes of a temple
       const { data, error } = await supabaseServer
@@ -49,7 +70,14 @@ export async function GET(req: Request) {
         .order('fortune_number', { ascending: true })
         .limit(1000);
       if (error) throw error;
-      return NextResponse.json({ rows: data }, { status: 200 });
+      return NextResponse.json({ rows: data ?? [] }, { 
+        status: 200,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      });
     }
 
     // All fortunes (no filter)
@@ -59,7 +87,14 @@ export async function GET(req: Request) {
       .order('fortune_number', { ascending: true })
       .limit(1000);
     if (error) throw error;
-    return NextResponse.json({ rows: data }, { status: 200 });
+    return NextResponse.json({ rows: data ?? [] }, { 
+      status: 200,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message || 'unknown error' }, { status: 500 });
   }
