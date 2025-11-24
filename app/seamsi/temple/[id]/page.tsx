@@ -63,7 +63,7 @@ export default async function Page({ params }: { params: Promise<PageParams> }) 
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <a href="/seamsi" className="text-primary">กลับ</a>
+      <a href="/fortune/seamsi" className="text-primary">กลับ</a>
       <div className="max-w-4xl mx-auto bg-card/80 backdrop-blur-sm border border-border/50 p-8 rounded-lg mt-6">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">{row.name}</h1>

@@ -11,7 +11,7 @@ export default function TempleRandomClient({ templeId }: { templeId: string }) {
     if (isShaking) return;
     setIsShaking(true);
     setTimeout(() => {
-      router.push(`/seamsi/temple/${templeId}/random`);
+      router.push(`/fortune/seamsi/temple/${templeId}/random`);
     }, 5000);
   };
 

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase-next';
+import { supabaseServer } from '@/lib/supabase-server';
 
 export const runtime = 'edge';
 
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
   try {
     if (temple) {
       if (random === '1' || random === 'true') {
-        const { count, error: countErr } = await supabase
+        const { count, error: countErr } = await supabaseServer
           .from('fortunes')
           .select('fortune_number', { count: 'exact', head: true })
           .eq('temple_id', temple);
@@ -20,7 +20,7 @@ export async function GET(req: Request) {
         const total = count ?? 0;
         if (total <= 0) return NextResponse.json({ row: null, total }, { status: 200 });
         const idx = Math.floor(Math.random() * total);
-        const { data, error } = await supabase
+        const { data, error } = await supabaseServer
           .from('fortunes')
           .select('temple_id,fortune_number,title,content')
           .eq('temple_id', temple)
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
       }
       if (number && !random) {
         // Single fortune by temple and number
-        const { data, error } = await supabase
+        const { data, error } = await supabaseServer
           .from('fortunes')
           .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
           .eq('temple_id', temple)
@@ -42,7 +42,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ row: data ?? null }, { status: 200 });
       }
       // All fortunes of a temple
-      const { data, error } = await supabase
+      const { data, error } = await supabaseServer
         .from('fortunes')
         .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
         .eq('temple_id', temple)
@@ -53,13 +53,54 @@ export async function GET(req: Request) {
     }
 
     // All fortunes (no filter)
-    const { data, error } = await supabase
+    const { data, error } = await supabaseServer
       .from('fortunes')
       .select('temple_id,fortune_number,title,content,seo_title,seo_description,seo_keywords,seo_image,smo_title,smo_description')
       .order('fortune_number', { ascending: true })
       .limit(1000);
     if (error) throw error;
     return NextResponse.json({ rows: data }, { status: 200 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e?.message || 'unknown error' }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const temple_id = body?.temple_id as string | undefined;
+    const fortune_number = body?.fortune_number as number | undefined;
+    if (!temple_id || !Number.isFinite(fortune_number)) {
+      return NextResponse.json({ error: 'temple_id and fortune_number are required' }, { status: 400 });
+    }
+
+    const keywordsArray = body?.seo_keywords
+      ? (Array.isArray(body.seo_keywords) 
+          ? body.seo_keywords 
+          : typeof body.seo_keywords === 'string' 
+            ? body.seo_keywords.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0)
+            : [])
+      : null;
+
+    const payload: any = {
+      temple_id,
+      fortune_number: Number(fortune_number),
+      title: body?.title || '',
+      content: body?.content || '',
+      seo_title: body?.seo_title || null,
+      seo_description: body?.seo_description || null,
+      seo_keywords: keywordsArray && keywordsArray.length > 0 ? keywordsArray : null,
+      seo_image: body?.seo_image || null,
+      smo_title: body?.smo_title || null,
+      smo_description: body?.smo_description || null,
+    };
+
+    const { error } = await supabaseServer
+      .from('fortunes')
+      .insert(payload);
+
+    if (error) throw error;
+    return NextResponse.json({ ok: true }, { status: 200 });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message || 'unknown error' }, { status: 500 });
   }
@@ -92,7 +133,7 @@ export async function PATCH(req: Request) {
       }
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseServer
       .from('fortunes')
       .update(payload)
       .match({ temple_id, fortune_number });
@@ -103,5 +144,4 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: e?.message || 'unknown error' }, { status: 500 });
   }
 }
-
 

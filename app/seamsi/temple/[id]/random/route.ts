@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase-next';
+import { supabaseServer } from '@/lib/supabase-server';
 
 export const runtime = 'edge';
 
 export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
-  const { data, error } = await supabase
+  const { data, error } = await supabaseServer
     .from('fortunes')
     .select('fortune_number,title,content')
     .eq('temple_id', id);

@@ -50,24 +50,31 @@ export default function AdminFortuneAddGeneral() {
       .split(',')
       .map((s) => s.trim())
       .filter((s) => s.length > 0);
-    const { error } = await supabase.from('fortunes').insert({
-      temple_id: form.temple_id,
-      fortune_number: Number(form.fortune_number),
-      title: form.title,
-      content: form.content,
-      seo_title: form.seo_title || null,
-      seo_description: form.seo_description || null,
-      seo_keywords: keywordsArray.length ? keywordsArray : null,
-      seo_image: form.seo_image || null,
-      smo_title: form.smo_title || null,
-      smo_description: form.smo_description || null
-    });
-    if (error) {
-      setError(error.message);
+    const basePath = window.location.pathname.includes('/fortune/') ? '/fortune' : '';
+    try {
+      const res = await fetch(`${basePath}/api/fortunes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          temple_id: form.temple_id,
+          fortune_number: Number(form.fortune_number),
+          title: form.title,
+          content: form.content,
+          seo_title: form.seo_title || null,
+          seo_description: form.seo_description || null,
+          seo_keywords: keywordsArray.length ? keywordsArray : null,
+          seo_image: form.seo_image || null,
+          smo_title: form.smo_title || null,
+          smo_description: form.smo_description || null
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || 'บันทึกไม่สำเร็จ');
+      router.push(`/admin/temples/${form.temple_id}/fortunes`);
+    } catch (e: any) {
+      setError(e?.message || 'บันทึกไม่สำเร็จ');
       setSaving(false);
-      return;
     }
-    router.push(`/admin/temples/${form.temple_id}/fortunes`);
   };
 
   return (
